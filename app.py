@@ -37,9 +37,9 @@ def search_index():
 
 
 
-@app.route('/searchuser/<useremail>', methods=['POST'])
-def search_process(useremail):
-
+@app.route('/searchuser', methods=["POST"])
+def search_process():
+    useremail = request.form.get("useremail")
     database_email= client.project3.user.find_one({
         "email":(useremail)
     },{
