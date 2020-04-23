@@ -10,16 +10,20 @@ client = pymongo.MongoClient(MONGO_URI)
 
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/user_input')
 def hello():
     return render_template('create.template.html')
 
 
-@app.route('/',  methods=['POST'])
+@app.route('/user_input',  methods=['POST'])
 def create():
     client.project3.user.insert_one({
-        "name": request.form.get("user_name"),
-        "experience": request.form.get("experience")
+        "name": {
+            "firstname": request.form.get("first_name"),
+            "lastname": request.form.get("last_name")
+        },
+        "experience": request.form.get("experience"),
+        "certification": request.form.get("certification")
     })
     return "user details added"
 
