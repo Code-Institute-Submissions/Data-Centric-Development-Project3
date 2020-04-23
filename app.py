@@ -10,12 +10,12 @@ client = pymongo.MongoClient(MONGO_URI)
 
 app = Flask(__name__)
 
-@app.route('/user_input')
+@app.route('/')
 def hello():
     return render_template('create.template.html')
 
 
-@app.route('/user_input',  methods=['POST'])
+@app.route('/',  methods=['POST'])
 def create():
     client.project3.user.insert_one({
         "name": {
@@ -28,31 +28,33 @@ def create():
     return "user details added"
 
 
-# "magic code" -- boilerplate
-if __name__ == '__main__':
-    app.run(host=os.environ.get('IP'),
-            port=int(os.environ.get('PORT')),
-            debug=True)
-            
-            
-######### OR ############
 
 
-from flask import Flask, render_template, request, redirect, url_for
-import os
+@app.route('/searchuser')
+def search_index():
 
-app = Flask(__name__)
+    return render_template('search.template.html')
 
-@app.route('/')
-def hello():
-    return "Hello World"
+
+
+@app.route('/searchuser/<useremail>', methods=['POST'])
+def search_process(useremail):
+
+    database_email= client.project3.user.find_one({
+        "email":(useremail)
+    },{
+        'name':1,'experience':1
+    })
+
+    if database_email:
+        return render_template('show.template.html',database_email=database_email)
+
+    else:
+        return('Not valid')
+
 
 # "magic code" -- boilerplate
 if __name__ == '__main__':
     app.run(host='localhost',
             port=8080,
             debug=True)
-            
-            
-            
-    
