@@ -16,18 +16,7 @@ app = Flask(__name__)
 #     return render_template('create.template.html')
 
 
-# @app.route('/',  methods=['POST'])
-# def create():
-#     client.project3.user.insert_one({
-#         "name": {
-#             "firstname": request.form.get("first_name"),
-#             "lastname": request.form.get("last_name")
-#         },
-#         "experience": request.form.get("experience"),
-#         "certification": request.form.get("certification"),
-#         "email": request.form.get("email")
-#     })
-#     return "user details added"
+# 
 
 
 
@@ -45,15 +34,26 @@ def search_process():
     },{
         'name':1,'experience':1
     })
-
+    # existing user
     if database:
         return render_template('show.template.html',database=database)
-
+    # new user
     else:
         return render_template('create.template.html', useremail=useremail)
 
 
-# delete
+@app.route('/create',  methods=['POST'])
+def createuser():
+    client.project3.user.insert_one({
+        "name": {
+            "firstname": request.form.get("first_name"),
+            "lastname": request.form.get("last_name")
+        },
+        "experience": request.form.get("experience"),
+        "certification": request.form.get("certification"),
+        "email": request.form.get("email")
+    })
+    return "user details added"
 
 
 
