@@ -51,10 +51,17 @@ def createuser():
         },
         "experience": request.form.get("experience"),
         "certification": request.form.get("certification"),
-        "email": request.form.get("email")
+        "email": request.form.get("useremail")
     })
-    return "user details added"
 
+    useremail = request.form.get("useremail")
+    database= client.project3.user.find_one({
+            "email":(useremail)
+        },{
+            'name':1,'experience':1
+        })
+
+    return render_template('show.template.html',database=database)
 
 
 
