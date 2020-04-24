@@ -10,48 +10,47 @@ client = pymongo.MongoClient(MONGO_URI)
 
 app = Flask(__name__)
 
-# create route
-@app.route('/')
-def hello():
-    return render_template('create.template.html')
+# # create route
+# @app.route('/')
+# def hello():
+#     return render_template('create.template.html')
 
 
-@app.route('/',  methods=['POST'])
-def create():
-    client.project3.user.insert_one({
-        "name": {
-            "firstname": request.form.get("first_name"),
-            "lastname": request.form.get("last_name")
-        },
-        "experience": request.form.get("experience"),
-        "certification": request.form.get("certification"),
-        "email": request.form.get("email")
-    })
-    return "user details added"
+# @app.route('/',  methods=['POST'])
+# def create():
+#     client.project3.user.insert_one({
+#         "name": {
+#             "firstname": request.form.get("first_name"),
+#             "lastname": request.form.get("last_name")
+#         },
+#         "experience": request.form.get("experience"),
+#         "certification": request.form.get("certification"),
+#         "email": request.form.get("email")
+#     })
+#     return "user details added"
 
 
 
 # search by email
-@app.route('/searchuser')
+@app.route('/')
 def search_index():
 
     return render_template('search.template.html')
 
-@app.route('/searchuser', methods=["POST"])
+@app.route('/', methods=["POST"])
 def search_process():
     useremail = request.form.get("useremail")
-    database_email= client.project3.user.find_one({
+    database= client.project3.user.find_one({
         "email":(useremail)
     },{
         'name':1,'experience':1
     })
 
-    if database_email:
-        return render_template('show.template.html',database_email=database_email)
+    if database:
+        return render_template('show.template.html',database=database)
 
     else:
-        return('Not valid')
-
+        return render_template('create.template.html', useremail=useremail)
 
 
 # delete
