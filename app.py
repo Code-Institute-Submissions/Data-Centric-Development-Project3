@@ -10,6 +10,7 @@ client = pymongo.MongoClient(MONGO_URI)
 
 app = Flask(__name__)
 
+# create route
 @app.route('/')
 def hello():
     return render_template('create.template.html')
@@ -23,19 +24,18 @@ def create():
             "lastname": request.form.get("last_name")
         },
         "experience": request.form.get("experience"),
-        "certification": request.form.get("certification")
+        "certification": request.form.get("certification"),
+        "email": request.form.get("email")
     })
     return "user details added"
 
 
 
-
+# search by email
 @app.route('/searchuser')
 def search_index():
 
     return render_template('search.template.html')
-
-
 
 @app.route('/searchuser', methods=["POST"])
 def search_process():
@@ -51,6 +51,12 @@ def search_process():
 
     else:
         return('Not valid')
+
+
+
+# delete
+
+
 
 
 # "magic code" -- boilerplate
