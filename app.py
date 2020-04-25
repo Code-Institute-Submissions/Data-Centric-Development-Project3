@@ -69,6 +69,20 @@ def search_dive(userid):
 
 
 
+# see sights
+@app.route('/sights/<userid>', methods=["GET"])
+def search_sights(userid):
+    
+    sights = client.project3.sightings.find_one({
+        "userid": ObjectId(userid)
+    }, {
+        'species': 1, 'photos':1, 'comments':1
+    })
+    return render_template('sights.template.html', sights=sights)
+
+
+
+
 # "magic code" -- boilerplate
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'),

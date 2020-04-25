@@ -8,10 +8,11 @@
 </head>
 <body>
     <div>
-        <h1>Welcome {{database.name.firstname}} {{database.name.lastname}} {{database._id}}</h1>
+        <h1>{{sights.species}} {{sights.photos}}</h1>
+        <p> {{sights.comments}}</p>
     </div>
 
-    <a href="{{ url_for('search_dive' , userid=database._id) }}">See Dives</a>
-    <a href="{{ url_for('search_sights' , userid=database._id) }}">See Sights</a>
+   
+
 </body>
 </html>
