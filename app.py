@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 import os
 import pymongo
+from bson.objectid import ObjectId
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -10,33 +11,24 @@ client = pymongo.MongoClient(MONGO_URI)
 
 app = Flask(__name__)
 
-# # create route
-# @app.route('/')
-# def hello():
-#     return render_template('create.template.html')
-
-
-# 
-
-
-
 # search by email
 @app.route('/')
 def search_index():
 
     return render_template('search.template.html')
 
+
 @app.route('/', methods=["POST"])
 def search_process():
     useremail = request.form.get("useremail")
-    database= client.project3.user.find_one({
-        "email":(useremail)
-    },{
-        'name':1,'experience':1
+    database = client.project3.user.find_one({
+        "email": (useremail)
+    }, {
+        'name': 1, 'experience': 1
     })
     # existing user
     if database:
-        return render_template('show.template.html',database=database)
+        return render_template('show.template.html', database=database)
     # new user
     else:
         return render_template('create.template.html', useremail=useremail)
@@ -55,13 +47,25 @@ def createuser():
     })
 
     useremail = request.form.get("useremail")
-    database= client.project3.user.find_one({
-            "email":(useremail)
-        },{
-            'name':1,'experience':1
+    database = client.project3.user.find_one({
+            "email": (useremail)
+        }, {
+            'name': 1, 'experience': 1
         })
 
-    return render_template('show.template.html',database=database)
+    return render_template('show.template.html', database=database)
+
+
+# see dives
+@app.route('/dive/<userid>', methods=["GET"])
+def search_dive(userid):
+    
+    dives = client.project3.dive.find_one({
+        "userid": ObjectId(userid)
+    }, {
+        'location': 1, 'divesite': 1, 'comments':1
+    })
+    return render_template('divelogs.template.html', dives=dives)
 
 
 
