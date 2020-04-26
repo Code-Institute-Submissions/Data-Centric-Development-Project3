@@ -11,7 +11,14 @@
         <h1>Welcome {{database.name.firstname}} {{database.name.lastname}} {{database._id}}</h1>
     </div>
 
+    <div>
     <a href="{{ url_for('search_dive' , userid=database._id) }}">See Dives</a>
     <a href="{{ url_for('search_sights' , userid=database._id) }}">See all Sightingss</a>
+    </div>
+
+    <div>
+    <a href="{{ url_for('createdive' , userid=database._id) }}">Create new dive log</a>
+    </div>
+
 </body>
 </html>

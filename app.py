@@ -28,7 +28,7 @@ def search_process():
     })
     # existing user
     if database:
-        return render_template('show.template.html', database=database)
+        return render_template('profile.template.html', database=database)
     # new user
     else:
         return render_template('create.template.html', useremail=useremail)
@@ -53,10 +53,10 @@ def createuser():
             'name': 1, 'experience': 1
         })
 
-    return render_template('show.template.html', database=database)
+    return render_template('profile.template.html', database=database)
 
 
-# see dives
+# see all dives
 @app.route('/dive/<userid>', methods=["GET"])
 def search_dive(userid):
     
@@ -72,7 +72,7 @@ def search_dive(userid):
 
 
 
-# see sights
+# see all sights
 @app.route('/sights/<userid>', methods=["GET"])
 def search_sights(userid):
     
@@ -97,6 +97,30 @@ def search_sights_per_dive(diveid):
 
 
 
+# create new dive
+@app.route('/createdive/<userid>')
+def createdive(userid):
+
+    return render_template('createdive.template.html')
+
+@app.route('/createdive/<userid>', methods=["POST"])
+def createdive_process(userid):
+    client.project3.dive.insert_one({
+        "userid": ObjectId(userid),
+        "location": request.form.get("location"),
+        "divesite": request.form.get("divesite"),
+        "temperature": request.form.get("temperature"),
+        "depth": request.form.get("depth"),
+        "date": request.form.get("date"),
+        "comments": request.form.get("comments")
+    })
+
+    dives = client.project3.dive.find({
+        "userid": ObjectId(userid)
+    }, {
+        'location': 1, 'divesite': 1, 'comments':1
+    })
+    return render_template('alldivelogs.template.html', dives=dives)
 
 
 # "magic code" -- boilerplate
