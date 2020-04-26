@@ -10,6 +10,14 @@
     <div>
         <h1>{{sights.species}} {{sights.photos}}</h1>
         <p> {{sights.comments}}</p>
+
+         {%for r in sights %}
+         <ul>
+        <li>Species: {{r.species}}</li>
+        <li>Photos: {{r.photos}}</li>
+        <li>Comments: {{r.comments}}</li>
+        </ul>
+        {%endfor%}
     </div>
 
    

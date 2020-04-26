@@ -76,7 +76,7 @@ def search_dive(userid):
 @app.route('/sights/<userid>', methods=["GET"])
 def search_sights(userid):
     
-    sights = client.project3.sightings.find_one({
+    sights = client.project3.sightings.find({
         "userid": ObjectId(userid)
     }, {
         'species': 1, 'photos':1, 'comments':1
