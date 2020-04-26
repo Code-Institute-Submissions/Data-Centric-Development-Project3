@@ -17,7 +17,7 @@ def search_index():
 
     return render_template('search.template.html')
 
-
+# when user enters email
 @app.route('/', methods=["POST"])
 def search_process():
     useremail = request.form.get("useremail")
@@ -33,7 +33,7 @@ def search_process():
     else:
         return render_template('create.template.html', useremail=useremail)
 
-
+# new user to create account
 @app.route('/create',  methods=['POST'])
 def createuser():
     client.project3.user.insert_one({
@@ -60,11 +60,14 @@ def createuser():
 @app.route('/dive/<userid>', methods=["GET"])
 def search_dive(userid):
     
-    dives = client.project3.dive.find_one({
+    dives = client.project3.dive.find({
         "userid": ObjectId(userid)
     }, {
         'location': 1, 'divesite': 1, 'comments':1
     })
+
+    
+    
     return render_template('divelogs.template.html', dives=dives)
 
 

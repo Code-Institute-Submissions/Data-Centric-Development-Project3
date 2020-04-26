@@ -8,8 +8,14 @@
 </head>
 <body>
     <div>
-        <h1>{{dives.location}} {{dives.divesite}}</h1>
-        <p> {{dives.comments}}</p>
+        <h1>Dive logs</h1>
+
+        {%for r in dives %}
+         <ul>
+        <li>Location: {{r.location}}</li>
+        <li>Site: {{r.divesite}}</li>
+        </ul>
+        {%endfor%}
     </div>
 
    
