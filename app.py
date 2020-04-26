@@ -68,7 +68,7 @@ def search_dive(userid):
 
     
     
-    return render_template('divelogs.template.html', dives=dives)
+    return render_template('alldivelogs.template.html', dives=dives)
 
 
 
@@ -81,7 +81,20 @@ def search_sights(userid):
     }, {
         'species': 1, 'photos':1, 'comments':1
     })
-    return render_template('sights.template.html', sights=sights)
+    return render_template('allsights.template.html', sights=sights)
+
+
+# see individual sights
+@app.route('/sights_per_dive/<diveid>', methods=["GET"])
+def search_sights_per_dive(diveid):
+    
+    sights = client.project3.sightings.find({
+        "diveid": ObjectId(diveid)
+    }, {
+        'species': 1, 'photos':1, 'comments':1
+    })
+    return render_template('per_sights.template.html', sights=sights)
+
 
 
 

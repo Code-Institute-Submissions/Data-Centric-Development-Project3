@@ -8,12 +8,13 @@
 </head>
 <body>
     <div>
-        <h1>Dive logs</h1>
+        <h1>All Dive logs</h1>
 
         {%for r in dives %}
          <ul>
         <li>Location: {{r.location}}</li>
         <li>Site: {{r.divesite}}</li>
+        <a href="{{ url_for('search_sights_per_dive' , diveid=r._id) }}">See sightings for this dive</a>
         </ul>
         {%endfor%}
     </div>
