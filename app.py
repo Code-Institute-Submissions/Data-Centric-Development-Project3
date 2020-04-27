@@ -9,6 +9,17 @@ MONGO_URI = os.environ.get('MONGO_URI')
 client = pymongo.MongoClient(MONGO_URI)
 
 
+def get_database_from_form():
+    useremail = request.form.get("useremail")
+    results = client.project3.user.find_one({
+            "email": (useremail)
+        }, {
+            'name': 1, 'experience': 1
+        })
+
+    return results, useremail
+
+
 app = Flask(__name__)
 
 # search by email
@@ -20,12 +31,7 @@ def search_index():
 # when user enters email
 @app.route('/', methods=["POST"])
 def search_process():
-    useremail = request.form.get("useremail")
-    database = client.project3.user.find_one({
-        "email": (useremail)
-    }, {
-        'name': 1, 'experience': 1
-    })
+    database, useremail = get_database_from_form()
     # existing user
     if database:
         return render_template('profile.template.html', database=database)
@@ -46,12 +52,7 @@ def createuser():
         "email": request.form.get("useremail")
     })
 
-    useremail = request.form.get("useremail")
-    database = client.project3.user.find_one({
-            "email": (useremail)
-        }, {
-            'name': 1, 'experience': 1
-        })
+    database, useremail = get_database_from_form()
 
     return render_template('profile.template.html', database=database)
 
