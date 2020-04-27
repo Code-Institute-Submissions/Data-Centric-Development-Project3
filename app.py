@@ -2,22 +2,16 @@ from flask import Flask, render_template, request, redirect, url_for
 import os
 import pymongo
 from bson.objectid import ObjectId
+import all_functions as af
 from dotenv import load_dotenv
 load_dotenv()
+
 
 MONGO_URI = os.environ.get('MONGO_URI')
 client = pymongo.MongoClient(MONGO_URI)
 
 
-def get_database_from_form():
-    useremail = request.form.get("useremail")
-    results = client.project3.user.find_one({
-            "email": (useremail)
-        }, {
-            'name': 1, 'experience': 1
-        })
 
-    return results, useremail
 
 
 app = Flask(__name__)
@@ -31,7 +25,8 @@ def search_index():
 # when user enters email
 @app.route('/', methods=["POST"])
 def search_process():
-    database, useremail = get_database_from_form()
+    
+    database, useremail = af.get_database_from_form()
     # existing user
     if database:
         return render_template('profile.template.html', database=database)
@@ -51,8 +46,7 @@ def createuser():
         "certification": request.form.get("certification"),
         "email": request.form.get("useremail")
     })
-
-    database, useremail = get_database_from_form()
+    database, useremail = af.get_database_from_form()
 
     return render_template('profile.template.html', database=database)
 
@@ -64,7 +58,7 @@ def search_dive(userid):
     dives = client.project3.dive.find({
         "userid": ObjectId(userid)
     }, {
-        'location': 1, 'divesite': 1, 'comments':1
+        'location': 1, 'divesite': 1, 'comments':1, 'userid':1
     })
 
     
@@ -76,7 +70,6 @@ def search_dive(userid):
 # see all sights
 @app.route('/sights/<userid>', methods=["GET"])
 def search_sights(userid):
-    
     sights = client.project3.sightings.find({
         "userid": ObjectId(userid)
     }, {
@@ -88,7 +81,6 @@ def search_sights(userid):
 # see individual sights
 @app.route('/sights_per_dive/<diveid>', methods=["GET"])
 def search_sights_per_dive(diveid):
-    
     sights = client.project3.sightings.find({
         "diveid": ObjectId(diveid)
     }, {
@@ -101,7 +93,6 @@ def search_sights_per_dive(diveid):
 # create new dive
 @app.route('/createdive/<userid>')
 def createdive(userid):
-
     return render_template('createdive.template.html')
 
 @app.route('/createdive/<userid>', methods=["POST"])
@@ -119,9 +110,34 @@ def createdive_process(userid):
     dives = client.project3.dive.find({
         "userid": ObjectId(userid)
     }, {
-        'location': 1, 'divesite': 1, 'comments':1
+        'location': 1, 'divesite': 1, 'comments':1, 'userid':1
     })
     return render_template('alldivelogs.template.html', dives=dives)
+
+
+
+# create new sighting
+@app.route('/createsighting/<diveid>/<userid>')
+def create_sighting(diveid,userid):
+    return render_template('createsighting.template.html')
+
+@app.route('/createsighting/<diveid>/<userid>', methods=["POST"])
+def create_sighting_process(diveid,userid):
+    
+    client.project3.sightings.insert_one({
+        "userid": ObjectId(userid),
+        "diveid": ObjectId(diveid),
+        "species": request.form.get("species"),
+        "photos": request.form.get("photos"),
+        "comments": request.form.get("comments")
+    })
+
+    sights = client.project3.sightings.find({
+        "userid": ObjectId(userid)
+    }, {
+        'species': 1, 'photos':1, 'comments':1
+    })
+    return render_template('allsights.template.html', sights=sights)
 
 
 # "magic code" -- boilerplate

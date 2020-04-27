@@ -15,6 +15,7 @@
         <li>Location: {{r.location}}</li>
         <li>Site: {{r.divesite}}</li>
         <a href="{{ url_for('search_sights_per_dive' , diveid=r._id) }}">See sightings for this dive</a>
+        <a href="{{ url_for('create_sighting' , diveid=r._id , userid=r.userid) }}">Add a sighting </a>
         </ul>
         {%endfor%}
     </div>
