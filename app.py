@@ -192,13 +192,20 @@ def delete(userid, diveid, sightid, delete_status):
 
 @app.route('/delete/<userid>/<diveid>/<sightid>/<delete_status>' , methods=["POST"])
 def delete_process(userid, diveid, sightid, delete_status):
-    client.project3.sightings.delete_one({
-        "_id": ObjectId(sightid),
-    })
+    delete_status = delete_status
+    if delete_status == 's':
+        client.project3.sightings.delete_one({
+            "_id": ObjectId(sightid),
+        })
 
-    sights = af.get_sights_userid(userid)
-    return render_template('allsights.template.html', sights=sights)
+        sights = af.get_sights_userid(userid)
+        return render_template('allsights.template.html', sights=sights)
 
+    elif delete_status == d:
+        return ('delete dive')
+
+    elif delete_status == u:
+        return ('delete user')
 
 
 # "magic code" -- boilerplate
