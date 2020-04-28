@@ -214,9 +214,19 @@ def delete_process(userid, diveid, sightid, delete_status):
         return render_template('alldivelogs.template.html', dives=dives)
 
     elif delete_status == 'u':
-        return ('delete user')
+        client.project3.user.delete_one({
+            "_id": ObjectId(userid),
+        })
 
+        client.project3.dive.delete_many({
+            "userid": ObjectId(userid),
+        })
 
+        client.project3.sightings.delete_many({
+            "userid": ObjectId(userid),
+        })
+
+        return redirect(url_for('search_index'))
 # "magic code" -- boilerplate
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'),
