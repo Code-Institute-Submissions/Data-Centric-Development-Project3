@@ -17,6 +17,7 @@
         <li>Photos: {{r.photos}}</li>
         <li>Comments: {{r.comments}}</li>
         <a href="{{ url_for('edit_sight' , diveid=r.diveid , userid=r.userid) }}">Edit Sighting </a>
+        <a href="{{ url_for('delete' , diveid=0 , userid=0, sightid=r._id) }}">Delete Sighting </a>
         </ul>
         {%endfor%}
     </div>

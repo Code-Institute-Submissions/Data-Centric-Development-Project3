@@ -202,6 +202,25 @@ def edit_dive_process(diveid,userid):
 
 
 
+# Delete sightings
+@app.route('/delete/<userid>/<diveid>/<sightid>')
+def delete(userid, diveid, sightid):
+   
+    return render_template('delete.template.html')
+
+@app.route('/delete/<userid>/<diveid>/<sightid>' , methods=["POST"])
+def delete_process(userid, diveid, sightid):
+    # client.project3.sightings.insert_one({
+    #     "userid": ObjectId(userid),
+    #     "diveid": ObjectId(diveid),
+    #     "species": request.form.get("species"),
+    #     "photos": request.form.get("photos"),
+    #     "comments": request.form.get("comments")
+    # })
+    # return render_template('allsights.template.html', sights=sights)
+    return ('ok')
+
+
 
 # "magic code" -- boilerplate
 if __name__ == '__main__':
