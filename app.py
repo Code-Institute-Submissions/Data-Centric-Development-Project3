@@ -57,7 +57,7 @@ def search_dive(userid):
     dives = client.project3.dive.find({
         "userid": ObjectId(userid)
     }, {
-        'location': 1, 'divesite': 1, 'comments': 1, 'userid': 1
+        'location': 1, 'divesite': 1, 'depth': 1, 'temperature': 1, 'date': 1, 'comments': 1, 'userid': 1
     })
     return render_template('alldivelogs.template.html', dives=dives)
 
@@ -106,7 +106,7 @@ def createdive_process(userid):
     dives = client.project3.dive.find({
         "userid": ObjectId(userid)
     }, {
-        'location': 1, 'divesite': 1, 'comments':1, 'userid':1
+        'location': 1, 'divesite': 1, 'depth': 1, 'temperature': 1, 'date': 1, 'comments': 1, 'userid': 1
     })
     return render_template('alldivelogs.template.html', dives=dives)
 
@@ -142,7 +142,7 @@ def edit_dive_process(diveid,userid):
     dives = client.project3.dive.find({
         "userid": ObjectId(userid)
     }, {
-        'location': 1, 'divesite': 1, 'comments':1, 'userid':1
+        'location': 1, 'divesite': 1, 'depth': 1, 'temperature': 1, 'date': 1, 'comments': 1, 'userid': 1
     })
     return render_template('alldivelogs.template.html', dives=dives)
 
