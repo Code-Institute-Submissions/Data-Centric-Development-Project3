@@ -134,11 +134,8 @@ def create_sighting_process(diveid,userid):
         "comments": request.form.get("comments")
     })
 
-    sights = client.project3.sightings.find({
-        "userid": ObjectId(userid)
-    }, {
-        'species': 1, 'photos':1, 'comments':1
-    })
+    sights = af.get_sights_userid(userid)
+
     return render_template('allsights.template.html', sights=sights)
 
 # see all sights
@@ -180,11 +177,8 @@ def edit_sight_process(sightid,userid):
     }
     })
 
-    sights = client.project3.sightings.find({
-        "userid": ObjectId(userid)
-    }, {
-        'species': 1, 'photos':1, 'comments':1, 'userid':1, 'diveid':1
-    })
+    sights = af.get_sights_userid(userid)
+    
     return render_template('allsights.template.html', sights=sights)
 
 
