@@ -62,6 +62,28 @@ def search_dive(userid):
     return render_template('alldivelogs.template.html', dives=dives)
 
 
+# create new sighting
+@app.route('/createsighting/<diveid>/<userid>')
+def create_sighting(diveid,userid):
+    return render_template('createsighting.template.html')
+
+@app.route('/createsighting/<diveid>/<userid>', methods=["POST"])
+def create_sighting_process(diveid,userid):
+    
+    client.project3.sightings.insert_one({
+        "userid": ObjectId(userid),
+        "diveid": ObjectId(diveid),
+        "species": request.form.get("species"),
+        "photos": request.form.get("photos"),
+        "comments": request.form.get("comments")
+    })
+
+    sights = client.project3.sightings.find({
+        "userid": ObjectId(userid)
+    }, {
+        'species': 1, 'photos':1, 'comments':1
+    })
+    return render_template('allsights.template.html', sights=sights)
 
 # see all sights
 @app.route('/sights/<userid>', methods=["GET"])
@@ -69,7 +91,7 @@ def search_sights(userid):
     sights = client.project3.sightings.find({
         "userid": ObjectId(userid)
     }, {
-        'species': 1, 'photos':1, 'comments':1
+        'species': 1, 'photos':1, 'comments':1, 'userid':1, 'diveid':1
     })
     return render_template('allsights.template.html', sights=sights)
 
@@ -80,10 +102,42 @@ def search_sights_per_dive(diveid):
     sights = client.project3.sightings.find({
         "diveid": ObjectId(diveid)
     }, {
-        'species': 1, 'photos':1, 'comments':1
+        'species': 1, 'photos':1, 'comments':1, 'userid':1, 'diveid':1
     })
     return render_template('per_sights.template.html', sights=sights)
 
+
+
+# Edit Sighting
+@app.route('/editsight/<diveid>/<userid>')
+def edit_sight(diveid,userid):
+
+    sights = client.project3.sightings.find_one({
+        "diveid": ObjectId(diveid)
+    }, {
+        'species': 1, 'photos':1, 'comments':1, 'userid':1, 'diveid':1
+    })
+    return render_template('editsight.template.html', sights=sights)
+
+
+@app.route('/editsight/<diveid>/<userid>', methods=["POST"])
+def edit_sight_process(diveid,userid):
+    client.project3.sightings.update_one({
+        "diveid": ObjectId(diveid)
+    },{
+        "$set":{
+        "species": request.form.get("species"),
+        "photos": request.form.get("photos"),
+        "comments": request.form.get("comments")
+    }
+    })
+
+    sights = client.project3.sightings.find({
+        "userid": ObjectId(userid)
+    }, {
+        'species': 1, 'photos':1, 'comments':1, 'userid':1, 'diveid':1
+    })
+    return render_template('allsights.template.html', sights=sights)
 
 
 # create new dive
@@ -147,28 +201,6 @@ def edit_dive_process(diveid,userid):
     return render_template('alldivelogs.template.html', dives=dives)
 
 
-# create new sighting
-@app.route('/createsighting/<diveid>/<userid>')
-def create_sighting(diveid,userid):
-    return render_template('createsighting.template.html')
-
-@app.route('/createsighting/<diveid>/<userid>', methods=["POST"])
-def create_sighting_process(diveid,userid):
-    
-    client.project3.sightings.insert_one({
-        "userid": ObjectId(userid),
-        "diveid": ObjectId(diveid),
-        "species": request.form.get("species"),
-        "photos": request.form.get("photos"),
-        "comments": request.form.get("comments")
-    })
-
-    sights = client.project3.sightings.find({
-        "userid": ObjectId(userid)
-    }, {
-        'species': 1, 'photos':1, 'comments':1
-    })
-    return render_template('allsights.template.html', sights=sights)
 
 
 # "magic code" -- boilerplate

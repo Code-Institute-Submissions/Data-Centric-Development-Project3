@@ -16,6 +16,8 @@
         <li>Species: {{r.species}}</li>
         <li>Photos: {{r.photos}}</li>
         <li>Comments: {{r.comments}}</li>
+        <a href="{{ url_for('edit_sight' , diveid=r.diveid , userid=r.userid) }}">Edit Sighting </a>
+
         </ul>
         {%endfor%}
     </div>
