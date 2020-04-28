@@ -52,93 +52,10 @@ def createuser():
 
 
 # see all dives
-@app.route('/dive/<userid>', methods=["GET"])
+@app.route('/dive/<userid>')
 def search_dive(userid):
-    dives = client.project3.dive.find({
-        "userid": ObjectId(userid)
-    }, {
-        'location': 1, 'divesite': 1, 'depth': 1, 'temperature': 1, 'date': 1, 'comments': 1, 'userid': 1
-    })
+    dives = af.all_dives(userid)
     return render_template('alldivelogs.template.html', dives=dives)
-
-
-# create new sighting
-@app.route('/createsighting/<diveid>/<userid>')
-def create_sighting(diveid,userid):
-    return render_template('createsighting.template.html')
-
-@app.route('/createsighting/<diveid>/<userid>', methods=["POST"])
-def create_sighting_process(diveid,userid):
-    
-    client.project3.sightings.insert_one({
-        "userid": ObjectId(userid),
-        "diveid": ObjectId(diveid),
-        "species": request.form.get("species"),
-        "photos": request.form.get("photos"),
-        "comments": request.form.get("comments")
-    })
-
-    sights = client.project3.sightings.find({
-        "userid": ObjectId(userid)
-    }, {
-        'species': 1, 'photos':1, 'comments':1
-    })
-    return render_template('allsights.template.html', sights=sights)
-
-# see all sights
-@app.route('/sights/<userid>', methods=["GET"])
-def search_sights(userid):
-    sights = client.project3.sightings.find({
-        "userid": ObjectId(userid)
-    }, {
-        'species': 1, 'photos':1, 'comments':1, 'userid':1, 'diveid':1
-    })
-    return render_template('allsights.template.html', sights=sights)
-
-
-# see individual sights
-@app.route('/sights_per_dive/<diveid>', methods=["GET"])
-def search_sights_per_dive(diveid):
-    sights = client.project3.sightings.find({
-        "diveid": ObjectId(diveid)
-    }, {
-        'species': 1, 'photos':1, 'comments':1, 'userid':1, 'diveid':1
-    })
-    return render_template('per_sights.template.html', sights=sights)
-
-
-
-# Edit Sighting
-@app.route('/editsight/<diveid>/<userid>')
-def edit_sight(diveid,userid):
-
-    sights = client.project3.sightings.find_one({
-        "diveid": ObjectId(diveid)
-    }, {
-        'species': 1, 'photos':1, 'comments':1, 'userid':1, 'diveid':1
-    })
-    return render_template('editsight.template.html', sights=sights)
-
-
-@app.route('/editsight/<diveid>/<userid>', methods=["POST"])
-def edit_sight_process(diveid,userid):
-    client.project3.sightings.update_one({
-        "diveid": ObjectId(diveid)
-    },{
-        "$set":{
-        "species": request.form.get("species"),
-        "photos": request.form.get("photos"),
-        "comments": request.form.get("comments")
-    }
-    })
-
-    sights = client.project3.sightings.find({
-        "userid": ObjectId(userid)
-    }, {
-        'species': 1, 'photos':1, 'comments':1, 'userid':1, 'diveid':1
-    })
-    return render_template('allsights.template.html', sights=sights)
-
 
 # create new dive
 @app.route('/createdive/<userid>')
@@ -201,24 +118,92 @@ def edit_dive_process(diveid,userid):
     return render_template('alldivelogs.template.html', dives=dives)
 
 
+# create new sighting
+@app.route('/createsighting/<diveid>/<userid>')
+def create_sighting(diveid,userid):
+    return render_template('createsighting.template.html')
+
+@app.route('/createsighting/<diveid>/<userid>', methods=["POST"])
+def create_sighting_process(diveid,userid):
+    
+    client.project3.sightings.insert_one({
+        "userid": ObjectId(userid),
+        "diveid": ObjectId(diveid),
+        "species": request.form.get("species"),
+        "photos": request.form.get("photos"),
+        "comments": request.form.get("comments")
+    })
+
+    sights = client.project3.sightings.find({
+        "userid": ObjectId(userid)
+    }, {
+        'species': 1, 'photos':1, 'comments':1
+    })
+    return render_template('allsights.template.html', sights=sights)
+
+# see all sights
+@app.route('/sights/<userid>')
+def search_sights(userid):
+    sights = af.get_sights_userid(userid)
+    return render_template('allsights.template.html', sights=sights)
+
+
+# see individual sights
+@app.route('/sights_per_dive/<diveid>')
+def search_sights_per_dive(diveid):
+    sights = af.get_sights_diveid(diveid)
+    return render_template('per_sights.template.html', sights=sights)
+
+
+
+# Edit Sighting
+@app.route('/editsight/<diveid>/<userid>')
+def edit_sight(diveid,userid):
+
+    sights = client.project3.sightings.find_one({
+        "diveid": ObjectId(diveid)
+    }, {
+        'species': 1, 'photos':1, 'comments':1, 'userid':1, 'diveid':1
+    })
+    return render_template('editsight.template.html', sights=sights)
+
+
+@app.route('/editsight/<diveid>/<userid>', methods=["POST"])
+def edit_sight_process(diveid,userid):
+    client.project3.sightings.update_one({
+        "diveid": ObjectId(diveid)
+    },{
+        "$set":{
+        "species": request.form.get("species"),
+        "photos": request.form.get("photos"),
+        "comments": request.form.get("comments")
+    }
+    })
+
+    sights = client.project3.sightings.find({
+        "userid": ObjectId(userid)
+    }, {
+        'species': 1, 'photos':1, 'comments':1, 'userid':1, 'diveid':1
+    })
+    return render_template('allsights.template.html', sights=sights)
+
+
+
 
 # Delete sightings
-@app.route('/delete/<userid>/<diveid>/<sightid>')
-def delete(userid, diveid, sightid):
+@app.route('/delete/<userid>/<diveid>/<sightid>/<delete_status>')
+def delete(userid, diveid, sightid, delete_status):
    
     return render_template('delete.template.html')
 
-@app.route('/delete/<userid>/<diveid>/<sightid>' , methods=["POST"])
-def delete_process(userid, diveid, sightid):
-    # client.project3.sightings.insert_one({
-    #     "userid": ObjectId(userid),
-    #     "diveid": ObjectId(diveid),
-    #     "species": request.form.get("species"),
-    #     "photos": request.form.get("photos"),
-    #     "comments": request.form.get("comments")
-    # })
-    # return render_template('allsights.template.html', sights=sights)
-    return ('ok')
+@app.route('/delete/<userid>/<diveid>/<sightid>/<delete_status>' , methods=["POST"])
+def delete_process(userid, diveid, sightid, delete_status):
+    client.project3.sightings.delete_one({
+        "_id": ObjectId(sightid),
+    })
+
+
+    return render_template('allsights.template.html', sights=sights)
 
 
 
