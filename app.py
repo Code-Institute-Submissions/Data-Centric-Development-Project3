@@ -54,15 +54,11 @@ def createuser():
 # see all dives
 @app.route('/dive/<userid>', methods=["GET"])
 def search_dive(userid):
-    
     dives = client.project3.dive.find({
         "userid": ObjectId(userid)
     }, {
-        'location': 1, 'divesite': 1, 'comments':1, 'userid':1
+        'location': 1, 'divesite': 1, 'comments': 1, 'userid': 1
     })
-
-    
-    
     return render_template('alldivelogs.template.html', dives=dives)
 
 
@@ -114,6 +110,41 @@ def createdive_process(userid):
     })
     return render_template('alldivelogs.template.html', dives=dives)
 
+
+
+# Edit dive
+@app.route('/editdive/<diveid>/<userid>')
+def edit_dive(diveid,userid):
+
+    dives = client.project3.dive.find_one({
+        "_id": ObjectId(diveid)
+    }, {
+        'location': 1, 'divesite': 1, 'comments':1, 'userid':1, 'temperature':1, 'depth':1, 'date':1
+    })
+    return render_template('editdive.template.html', dives=dives)
+
+
+@app.route('/editdive/<diveid>/<userid>', methods=["POST"])
+def edit_dive_process(diveid,userid):
+    client.project3.dive.update_one({
+        "_id":ObjectId(diveid)
+    },{
+        "$set":{
+        "location": request.form.get("location"),
+        "divesite": request.form.get("divesite"),
+        "temperature": request.form.get("temperature"),
+        "depth": request.form.get("depth"),
+        "date": request.form.get("date"),
+        "comments": request.form.get("comments")
+    }
+    })
+
+    dives = client.project3.dive.find({
+        "userid": ObjectId(userid)
+    }, {
+        'location': 1, 'divesite': 1, 'comments':1, 'userid':1
+    })
+    return render_template('alldivelogs.template.html', dives=dives)
 
 
 # create new sighting
