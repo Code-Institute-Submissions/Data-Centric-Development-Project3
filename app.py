@@ -39,12 +39,12 @@ def search_process():
 def createuser():
     client.project3.user.insert_one({
         "name": {
-            "firstname": request.form.get("first_name"),
-            "lastname": request.form.get("last_name")
+            "firstname": (request.form.get("first_name")).title(),
+            "lastname": (request.form.get("last_name")).title()
         },
-        "experience": request.form.get("experience"),
-        "certification": request.form.get("certification"),
-        "email": request.form.get("useremail")
+        "experience": (request.form.get("experience")).title(),
+        "certification": (request.form.get("certification")).title(),
+        "email": (request.form.get("useremail")).title()
     })
     database, useremail = af.get_database_from_form()
 
@@ -66,19 +66,15 @@ def createdive(userid):
 def createdive_process(userid):
     client.project3.dive.insert_one({
         "userid": ObjectId(userid),
-        "location": request.form.get("location"),
-        "divesite": request.form.get("divesite"),
-        "temperature": request.form.get("temperature"),
-        "depth": request.form.get("depth"),
+        "location": (request.form.get("location")).title(),
+        "divesite": (request.form.get("divesite")).title(),
+        "temperature": (request.form.get("temperature")).title(),
+        "depth": (request.form.get("depth")).title(),
         "date": request.form.get("date"),
-        "comments": request.form.get("comments")
+        "comments": (request.form.get("comments")).title()
     })
 
-    dives = client.project3.dive.find({
-        "userid": ObjectId(userid)
-    }, {
-        'location': 1, 'divesite': 1, 'depth': 1, 'temperature': 1, 'date': 1, 'comments': 1, 'userid': 1
-    })
+    dives = af.all_dives(userid)
     return render_template('alldivelogs.template.html', dives=dives)
 
 
@@ -87,11 +83,7 @@ def createdive_process(userid):
 @app.route('/editdive/<diveid>/<userid>')
 def edit_dive(diveid,userid):
 
-    dives = client.project3.dive.find_one({
-        "_id": ObjectId(diveid)
-    }, {
-        'location': 1, 'divesite': 1, 'comments':1, 'userid':1, 'temperature':1, 'depth':1, 'date':1
-    })
+    dives = af.dive_diveid(diveid)
     return render_template('editdive.template.html', dives=dives)
 
 
@@ -101,37 +93,33 @@ def edit_dive_process(diveid,userid):
         "_id":ObjectId(diveid)
     },{
         "$set":{
-        "location": request.form.get("location"),
-        "divesite": request.form.get("divesite"),
-        "temperature": request.form.get("temperature"),
-        "depth": request.form.get("depth"),
-        "date": request.form.get("date"),
-        "comments": request.form.get("comments")
+            "location": (request.form.get("location")).title(),
+            "divesite": (request.form.get("divesite")).title(),
+            "temperature": (request.form.get("temperature")).title(),
+            "depth": (request.form.get("depth")).title(),
+            "date": request.form.get("date"),
+            "comments": (request.form.get("comments")).title()
     }
     })
 
-    dives = client.project3.dive.find({
-        "userid": ObjectId(userid)
-    }, {
-        'location': 1, 'divesite': 1, 'depth': 1, 'temperature': 1, 'date': 1, 'comments': 1, 'userid': 1
-    })
+    dives = af.all_dives(userid)
     return render_template('alldivelogs.template.html', dives=dives)
 
 
 # create new sighting
 @app.route('/createsighting/<diveid>/<userid>')
-def create_sighting(diveid,userid):
+def create_sighting(diveid, userid):
     return render_template('createsighting.template.html')
 
+
 @app.route('/createsighting/<diveid>/<userid>', methods=["POST"])
-def create_sighting_process(diveid,userid):
-    
+def create_sighting_process(diveid, userid):
     client.project3.sightings.insert_one({
         "userid": ObjectId(userid),
         "diveid": ObjectId(diveid),
-        "species": request.form.get("species"),
-        "photos": request.form.get("photos"),
-        "comments": request.form.get("comments")
+        "species": (request.form.get("species")).title(),
+        "photos": (request.form.get("photos")).title(),
+        "comments": (request.form.get("comments")).title()
     })
 
     sights = af.get_sights_userid(userid)
@@ -166,14 +154,14 @@ def edit_sight(sightid,userid):
 
 
 @app.route('/editsight/<sightid>/<userid>', methods=["POST"])
-def edit_sight_process(sightid,userid):
+def edit_sight_process(sightid, userid):
     client.project3.sightings.update_one({
-        "diveid": ObjectId(diveid)
-    },{
-        "$set":{
-        "species": request.form.get("species"),
-        "photos": request.form.get("photos"),
-        "comments": request.form.get("comments")
+        "diveid": ObjectId(sightid)
+    }, {
+        "$set": {
+            "species": (request.form.get("species")).title(),
+            "photos": (request.form.get("photos")).title(),
+            "comments": (request.form.get("comments")).title()
     }
     })
 
