@@ -201,10 +201,19 @@ def delete_process(userid, diveid, sightid, delete_status):
         sights = af.get_sights_userid(userid)
         return render_template('allsights.template.html', sights=sights)
 
-    elif delete_status == d:
-        return ('delete dive')
+    elif delete_status == 'd':
+        client.project3.dive.delete_one({
+            "_id": ObjectId(diveid),
+        })
 
-    elif delete_status == u:
+        client.project3.sightings.delete_many({
+            "diveid": ObjectId(diveid),
+        })
+
+        dives = af.all_dives(userid)
+        return render_template('alldivelogs.template.html', dives=dives)
+
+    elif delete_status == 'u':
         return ('delete user')
 
 
