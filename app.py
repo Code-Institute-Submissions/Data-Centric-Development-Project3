@@ -157,19 +157,19 @@ def search_sights_per_dive(diveid):
 
 
 # Edit Sighting
-@app.route('/editsight/<diveid>/<userid>')
-def edit_sight(diveid,userid):
+@app.route('/editsight/<sightid>/<userid>')
+def edit_sight(sightid,userid):
 
     sights = client.project3.sightings.find_one({
-        "diveid": ObjectId(diveid)
+        "_id": ObjectId(sightid)
     }, {
         'species': 1, 'photos':1, 'comments':1, 'userid':1, 'diveid':1
     })
     return render_template('editsight.template.html', sights=sights)
 
 
-@app.route('/editsight/<diveid>/<userid>', methods=["POST"])
-def edit_sight_process(diveid,userid):
+@app.route('/editsight/<sightid>/<userid>', methods=["POST"])
+def edit_sight_process(sightid,userid):
     client.project3.sightings.update_one({
         "diveid": ObjectId(diveid)
     },{
