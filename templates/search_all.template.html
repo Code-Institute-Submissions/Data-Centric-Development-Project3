@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <h1>All Dive logs</h1>
+
+        {%for r in search_result %}
+         <ul>
+        <li>Location: {{r.location}}</li>
+        <li>Site: {{r.divesite}}</li>
+        <li>Depth: {{r.depth}}</li>
+        <li>Temperature: {{r.temperature}}</li>
+        <li>Date: {{r.date}}</li>
+        <li>Comments: {{r.comments}}</li>
+        <a href="{{ url_for('search_sights_per_dive' , diveid=r._id) }}">See sightings for this dive</a>
+        <a href="{{ url_for('create_sighting' , diveid=r._id , userid=r.userid) }}">Add a sighting </a>
+        <a href="{{ url_for('edit_dive' , diveid=r._id , userid=r.userid) }}">Edit Dive </a>
+        <a href="{{ url_for('delete' , diveid=r._id , userid=r.userid, sightid=0, delete_status='d') }}">Delete Dive </a>
+
+        </ul>
+        {%endfor%}
+    </div>
+
+   
+
+</body>
+</html>

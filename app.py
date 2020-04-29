@@ -20,7 +20,7 @@ app = Flask(__name__)
 @app.route('/')
 def search_index():
 
-    return render_template('search.template.html')
+    return render_template('index.template.html')
 
 # when user enters email
 @app.route('/', methods=["POST"])
@@ -32,7 +32,7 @@ def search_process():
         return render_template('profile.template.html', database=database)
     # new user
     else:
-        return render_template('create.template.html', useremail=useremail)
+        return render_template('createuser.template.html', useremail=useremail)
 
 # new user to create account
 @app.route('/create',  methods=['POST'])
@@ -215,6 +215,26 @@ def delete_process(userid, diveid, sightid, delete_status):
         })
 
         return redirect(url_for('search_index'))
+
+
+# Search all
+# @app.route('/searchall')
+# def search_all():
+
+#     return render_template('search_all.template.html', dives=dives)
+
+
+@app.route('/searchall')
+def search_all_process():
+    search = request.args.get("search")
+    search_result = client.project3.dive.find({
+        "location": search
+    }, {
+        'location': 1, 'divesite': 1, 'depth': 1, 'temperature': 1, 'date': 1, 'comments': 1, 'userid': 1
+    })
+    return render_template('search_all.template.html', search_result=search_result)
+
+
 # "magic code" -- boilerplate
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'),
