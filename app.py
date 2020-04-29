@@ -14,6 +14,7 @@ client = pymongo.MongoClient(MONGO_URI)
 
 
 
+
 app = Flask(__name__)
 
 # search by email
@@ -25,18 +26,20 @@ def search_index():
 # when user enters email
 @app.route('/', methods=["POST"])
 def search_process():
-    
+    uploadcare_public_key = os.environ.get('UPLOADCARE_PUBLIC_KEY')
     database, useremail = af.get_database_from_form()
     # existing user
     if database:
         return render_template('profile.template.html', database=database)
     # new user
     else:
-        return render_template('createuser.template.html', useremail=useremail)
+        return render_template('createuser.template.html', useremail=useremail, uploadcare_public_key=uploadcare_public_key)
 
 # new user to create account
 @app.route('/create',  methods=['POST'])
 def createuser():
+
+    uploadcare_public_key = os.environ.get('UPLOADCARE_PUBLIC_KEY')
     client.project3.user.insert_one({
         "name": {
             "firstname": (request.form.get("first_name")).title(),
@@ -44,11 +47,12 @@ def createuser():
         },
         "experience": (request.form.get("experience")).title(),
         "certification": (request.form.get("certification")).title(),
-        "email": (request.form.get("useremail")).title()
+        "email": (request.form.get("useremail")).title(),
+        "photos": request.form.get("photos")
     })
     database, useremail = af.get_database_from_form()
 
-    return render_template('profile.template.html', database=database)
+    return render_template('profile.template.html', database=database, uploadcare_public_key=uploadcare_public_key)
 
 
 # see all dives
