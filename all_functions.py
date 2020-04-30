@@ -12,7 +12,7 @@ def get_database_from_form():
     results = client.project3.user.find_one({
             "email": (useremail)
         }, {
-            'name': 1, 'experience': 1
+            'name': 1, 'experience': 1, 'certification':1, 'photos':1
         })
 
     return results, useremail
