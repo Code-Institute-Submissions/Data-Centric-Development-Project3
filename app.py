@@ -228,11 +228,10 @@ def delete_process(userid, diveid, sightid, delete_status):
 #     return render_template('search_all.template.html', dives=dives)
 
 
-@app.route('/searchall')
+@app.route('/searchall/', methods=["POST"])
 def search_all_process():
-    search = request.args.get("search")
     search_result = client.project3.dive.find({
-        "location": search
+        "location": (request.form.get("search")).title()
     }, {
         'location': 1, 'divesite': 1, 'depth': 1, 'temperature': 1, 'date': 1, 'comments': 1, 'userid': 1
     })

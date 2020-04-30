@@ -15,7 +15,7 @@
     </form>
 
 
-    <form href="{{ url_for('search_all_process') }}">
+    <form method="POST" action="{{ url_for('search_all_process') }}">
         <label>Search</label>
         <input type="text" name="search"/>
         <input type="submit"/>   
