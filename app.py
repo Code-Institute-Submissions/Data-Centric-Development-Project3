@@ -9,7 +9,7 @@ load_dotenv()
 
 MONGO_URI = os.environ.get('MONGO_URI')
 client = pymongo.MongoClient(MONGO_URI)
-
+uploadcare_public_key = os.environ.get('UPLOADCARE_PUBLIC_KEY')
 
 
 
@@ -26,7 +26,7 @@ def search_index():
 # when user enters email
 @app.route('/', methods=["POST"])
 def search_process():
-    uploadcare_public_key = os.environ.get('UPLOADCARE_PUBLIC_KEY')
+    
     database, useremail = af.get_database_from_form()
     # existing user
     if database:
@@ -39,7 +39,7 @@ def search_process():
 @app.route('/create',  methods=['POST'])
 def createuser():
 
-    uploadcare_public_key = os.environ.get('UPLOADCARE_PUBLIC_KEY')
+    
     client.project3.user.insert_one({
         "name": {
             "firstname": (request.form.get("first_name")).title(),
@@ -113,7 +113,7 @@ def edit_dive_process(diveid,userid):
 # create new sighting
 @app.route('/createsighting/<diveid>/<userid>')
 def create_sighting(diveid, userid):
-    return render_template('createsighting.template.html')
+    return render_template('createsighting.template.html', uploadcare_public_key=uploadcare_public_key)
 
 
 @app.route('/createsighting/<diveid>/<userid>', methods=["POST"])
@@ -122,13 +122,13 @@ def create_sighting_process(diveid, userid):
         "userid": ObjectId(userid),
         "diveid": ObjectId(diveid),
         "species": (request.form.get("species")).title(),
-        "photos": (request.form.get("photos")).title(),
+        "photos": request.form.get("photos"),
         "comments": (request.form.get("comments")).title()
     })
 
     sights = af.get_sights_userid(userid)
 
-    return render_template('allsights.template.html', sights=sights)
+    return render_template('allsights.template.html', sights=sights, uploadcare_public_key=uploadcare_public_key)
 
 # see all sights
 @app.route('/sights/<userid>')

@@ -14,7 +14,7 @@
          {%for r in sights %}
          <ul>
         <li>Species: {{r.species}}</li>
-        <li>Photos: {{r.photos}}</li>
+        <li><img src= "{{r.photos}}"/></li>
         <li>Comments: {{r.comments}}</li>
         <a href="{{ url_for('edit_sight' , sightid=r._id , userid=r.userid) }}">Edit Sighting </a>
         <a href="{{ url_for('delete' , diveid=r.diveid , userid=r.userid, sightid=r._id, delete_status='s') }}">Delete Sighting </a>
