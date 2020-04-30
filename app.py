@@ -154,24 +154,23 @@ def edit_sight(sightid,userid):
     }, {
         'species': 1, 'photos':1, 'comments':1, 'userid':1, 'diveid':1
     })
-    return render_template('editsight.template.html', sights=sights)
+    return render_template('editsight.template.html', sights=sights, uploadcare_public_key=uploadcare_public_key)
 
 
 @app.route('/editsight/<sightid>/<userid>', methods=["POST"])
 def edit_sight_process(sightid, userid):
     client.project3.sightings.update_one({
-        "diveid": ObjectId(sightid)
+        "_id": ObjectId(sightid)
     }, {
         "$set": {
             "species": (request.form.get("species")).title(),
-            "photos": (request.form.get("photos")).title(),
+            "photos": request.form.get("photos"),
             "comments": (request.form.get("comments")).title()
     }
     })
 
     sights = af.get_sights_userid(userid)
-    
-    return render_template('allsights.template.html', sights=sights)
+    return render_template('allsights.template.html', sights=sights, uploadcare_public_key=uploadcare_public_key)
 
 
 
