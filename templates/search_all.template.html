@@ -18,6 +18,7 @@
         <li>Temperature: {{r.temperature}}</li>
         <li>Date: {{r.date}}</li>
         <li>Comments: {{r.comments}}</li>
+        
         <a href="{{ url_for('search_sights_per_dive' , diveid=r._id) }}">See sightings for this dive</a>
         <a href="{{ url_for('create_sighting' , diveid=r._id , userid=r.userid) }}">Add a sighting </a>
         <a href="{{ url_for('edit_dive' , diveid=r._id , userid=r.userid) }}">Edit Dive </a>
