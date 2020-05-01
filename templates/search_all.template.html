@@ -10,7 +10,8 @@
     <div>
         <h1>All Dive logs</h1>
 
-        {%for r in search_result %}
+        {% if status == 'location' %}
+            {%for r in search_result %}
          <ul>
         <li>Location: {{r.location}}</li>
         <li>Site: {{r.divesite}}</li>
@@ -26,6 +27,22 @@
 
         </ul>
         {%endfor%}
+
+     {% elif status == 'species' %}
+        {%for r in search_result %}
+         <ul>
+        <li>Species: {{r.species}}</li>
+        <li><img src= "{{r.photos}}"/></li>
+        <li>Comments: {{r.comments}}</li>
+        <a href="{{ url_for('edit_sight' , sightid=r._id , userid=r.userid) }}">Edit Sighting </a>
+        <a href="{{ url_for('delete' , diveid=r.diveid , userid=r.userid, sightid=r._id, delete_status='s') }}">Delete Sighting </a>
+        </ul>
+        {%endfor%}
+
+        {% elif status == 'nothing' %}
+
+        <h1>No result found</h1>
+        {% endif %}
     </div>
 
    

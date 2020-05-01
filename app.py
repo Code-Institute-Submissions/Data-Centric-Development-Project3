@@ -231,40 +231,49 @@ def delete_process(userid, diveid, sightid, delete_status):
 def search_all_process():
     search_country = client.project3.dive.find_one({
         "location": (request.form.get("search")).title()
-    }, {
-        'location': 1, 'divesite': 1, 'depth': 1, 'temperature': 1, 'date': 1, 'comments': 1, 'userid': 1
     })
 
     search_divesite = client.project3.dive.find_one({
         "divesite": (request.form.get("search")).title()
-    }, {
-        'location': 1, 'divesite': 1, 'depth': 1, 'temperature': 1, 'date': 1, 'comments': 1, 'userid': 1
     })
 
     search_specie = client.project3.sightings.find_one({
         "species": (request.form.get("search")).title()
-    }, {
-        'species': 1, 'photos':1, 'comments':1, 'userid':1, 'diveid':1
     })
 
     if search_country:
+        status = 'location'
         search_result = client.project3.dive.find({
-        "location": (request.form.get("search")).title()
-    }, {
-        'location': 1, 'divesite': 1, 'depth': 1, 'temperature': 1, 'date': 1, 'comments': 1, 'userid': 1
-    })
+            "location": (request.form.get("search")).title()
+        }, {
+            'location': 1, 'divesite': 1, 'depth': 1, 'temperature': 1, 'date': 1, 'comments': 1, 'userid': 1
+        })
         print('country')
-        return render_template('search_all.template.html', search_result=search_result)
+        return render_template('search_all.template.html', search_result=search_result, status=status)
 
     elif search_divesite:
+        status = 'location'
         search_result = client.project3.dive.find({
-        "divesite": (request.form.get("search")).title()
+            "divesite": (request.form.get("search")).title()
     }, {
-        'location': 1, 'divesite': 1, 'depth': 1, 'temperature': 1, 'date': 1, 'comments': 1, 'userid': 1
+            'location': 1, 'divesite': 1, 'depth': 1, 'temperature': 1, 'date': 1, 'comments': 1, 'userid': 1
     })
         print('divesite')
-        return render_template('search_all.template.html', search_result=search_result)
+        return render_template('search_all.template.html', search_result=search_result, status=status)
 
+    elif search_specie:
+        status = 'species'
+        search_result = client.project3.sightings.find({
+            "species": (request.form.get("search")).title()
+    }, {
+            'species': 1, 'photos':1, 'comments':1, 'userid':1, 'diveid':1
+    })
+        print('species')
+        return render_template('search_all.template.html', search_result=search_result, status=status)
+
+    else:
+        status = 'nothing'
+        return render_template('search_all.template.html', status=status)
 
 # "magic code" -- boilerplate
 if __name__ == '__main__':
