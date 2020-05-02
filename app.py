@@ -20,8 +20,11 @@ app = Flask(__name__)
 # search by email
 @app.route('/')
 def search_index():
+    # to find the latest 5 entries in sightings collection
+    lastentry = client.project3.sightings.find().sort("_id",-1).limit(5)
 
-    return render_template('index.template.html')
+
+    return render_template('index.template.html', lastentry = lastentry)
 
 # when user enters email
 @app.route('/', methods=["POST"])
