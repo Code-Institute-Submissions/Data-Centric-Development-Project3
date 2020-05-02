@@ -121,13 +121,24 @@ def create_sighting(diveid, userid):
 
 @app.route('/createsighting/<diveid>/<userid>', methods=["POST"])
 def create_sighting_process(diveid, userid):
-    client.project3.sightings.insert_one({
+    # if no sighting photos upload by user - create a default image
+    if request.form.get("photos") == '':
+        client.project3.sightings.insert_one({
         "userid": ObjectId(userid),
         "diveid": ObjectId(diveid),
         "species": (request.form.get("species")).title(),
-        "photos": request.form.get("photos"),
+        "photos": 'https://ucarecdn.com/91ca9fa4-d421-4d73-a70f-350e75e0ab8b/',
         "comments": (request.form.get("comments")).title()
-    })
+        })
+
+    else:
+        client.project3.sightings.insert_one({
+            "userid": ObjectId(userid),
+            "diveid": ObjectId(diveid),
+            "species": (request.form.get("species")).title(),
+            "photos": request.form.get("photos"),
+            "comments": (request.form.get("comments")).title()
+        })
 
     sights = af.get_sights_userid(userid)
 
