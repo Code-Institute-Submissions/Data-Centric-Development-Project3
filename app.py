@@ -20,7 +20,7 @@ app = Flask(__name__)
 # search by email
 @app.route('/')
 def search_index():
-    # to find the latest 5 entries in sightings collection
+    # to find the latest 5 entries in sightings collection - create a default photo
     lastentry = client.project3.sightings.find().sort("_id",-1).limit(5)
 
 
@@ -41,9 +41,21 @@ def search_process():
 # new user to create account
 @app.route('/create',  methods=['POST'])
 def createuser():
+    # if no user profile photo uploaded
+    if request.form.get("photos") == '':
+        client.project3.user.insert_one({
+            "name": {
+                "firstname": (request.form.get("first_name")).title(),
+                "lastname": (request.form.get("last_name")).title()
+            },
+            "experience": (request.form.get("experience")).title(),
+            "certification": (request.form.get("certification")).title(),
+            "email": (request.form.get("useremail")).title(),
+            "photos": 'https://ucarecdn.com/4c0ef6a3-a23e-45bc-9066-2ab52d39baae/'
+        })
 
-    
-    client.project3.user.insert_one({
+    else:
+        client.project3.user.insert_one({
         "name": {
             "firstname": (request.form.get("first_name")).title(),
             "lastname": (request.form.get("last_name")).title()
@@ -52,7 +64,8 @@ def createuser():
         "certification": (request.form.get("certification")).title(),
         "email": (request.form.get("useremail")).title(),
         "photos": request.form.get("photos")
-    })
+        })
+
     database, useremail = af.get_database_from_form()
 
     return render_template('profile.template.html', database=database, uploadcare_public_key=uploadcare_public_key)
@@ -232,13 +245,6 @@ def delete_process(userid, diveid, sightid, delete_status):
         })
 
         return redirect(url_for('search_index'))
-
-
-# Search all
-# @app.route('/searchall')
-# def search_all():
-
-#     return render_template('search_all.template.html', dives=dives)
 
 
 @app.route('/searchall/', methods=["POST"])
