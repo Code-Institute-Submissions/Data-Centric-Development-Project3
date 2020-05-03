@@ -19,7 +19,7 @@ app = Flask(__name__)
 
 # search by email
 @app.route('/')
-def search_index():
+def index():
     # to find the latest 5 entries in sightings collection - create a default photo
     lastentry = client.project3.sightings.find().sort("_id",-1).limit(5)
 
