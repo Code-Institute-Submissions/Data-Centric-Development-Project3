@@ -1,14 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <script>UPLOADCARE_PUBLIC_KEY = "{{uploadcare_public_key}}";</script>
-    <script src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js" charset="utf-8"></script>
-</head>
-<body>
+{% extends "index.template.html" %}
+
+
+{% block content %}
+
+
 
     <form method="POST" >
         <label>Species</label>
@@ -23,6 +18,4 @@
     </form>
 
 
-
-</body>
-</html>
+{% endblock %}
