@@ -30,9 +30,6 @@
       <li class="nav-item">
         <a class="nav-link" href="#">About</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Profile</a>
-      </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Profile
@@ -57,17 +54,35 @@
   </div>
 </nav>
 {% block content %}
-    <div>
+    <div class='row'>
+    <div class="col-2"></div>
+    <div class="col-8 content-lastfive">
     {%for r in lastentry %}
-         <ul>
-        <li>Species: {{r.species}}</li>
-        <li><img src= "{{r.photos}}"/></li>
-        <li>Comments: {{r.comments}}</li>
-        <a href="{{ url_for('edit_sight' , sightid=r._id , userid=r.userid) }}">Edit Sighting </a>
-        <a href="{{ url_for('delete' , diveid=r.diveid , userid=r.userid, sightid=r._id, delete_status='s') }}">Delete Sighting </a>
-        </ul>
+  
+
+
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Image</th>
+      <th scope="col">Species</th>
+      <th scope="col">Comments</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row" class="image-row"><img style="display:block;" width="70%" height="70%" src= "{{r.photos}}"/></th>
+      <td>{{r.species}}</td>
+      <td>{{r.comments}}</td>
+      
+    </tr>
+  </tbody>
+</table>
+
         {%endfor%}
-</div>
+    </div>
+    <div class="col-2"></div>
+    </div>
 
 {% endblock %}
 

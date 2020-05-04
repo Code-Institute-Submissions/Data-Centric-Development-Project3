@@ -6,3 +6,16 @@ a.search-button {
     text-decoration: none;
     color: initial;
 }
+
+/* last five sightings content */
+.content-lastfive {
+    text-align: center;
+}
+
+.image-row{
+    width: 500px;
+}
+
+.image-row img{
+    width: 100%;
+}
