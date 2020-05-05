@@ -20,3 +20,15 @@ a.search-button {
 .image-row img{
     width: 100%;
 }
+
+tr:hover {
+    background-color: #f5f5f5;
+}
+
+#profile-name, #alldives {
+        font-size: 40px;
+    }
+
+.delete-btn {
+    color: red;
+}

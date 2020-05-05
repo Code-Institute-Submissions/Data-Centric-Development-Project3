@@ -21,15 +21,14 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     # to find the latest 5 entries in sightings collection - create a default photo
-    lastentry = client.project3.sightings.find().sort("_id",-1).limit(5)
+    lastentry = client.project3.sightings.find().sort("_id", -1).limit(5)
 
-
-    return render_template('index.template.html', lastentry = lastentry)
+    return render_template('index.template.html', lastentry=lastentry)
 
 # when user enters email
 @app.route('/', methods=["POST"])
 def search_process():
-    
+
     database, useremail = af.get_database_from_form()
     # existing user
     if database:
@@ -49,22 +48,22 @@ def createuser():
                 "lastname": (request.form.get("last_name")).title()
             },
             "experience": (request.form.get("experience")).title(),
-            "certification": (request.form.get("certification")).title(),
+            "certification": (request.form.get("certification")).upper(),
             "email": (request.form.get("useremail")).title(),
             "photos": 'https://ucarecdn.com/4c0ef6a3-a23e-45bc-9066-2ab52d39baae/'
         })
 
     else:
         client.project3.user.insert_one({
-        "name": {
-            "firstname": (request.form.get("first_name")).title(),
-            "lastname": (request.form.get("last_name")).title()
-        },
-        "experience": (request.form.get("experience")).title(),
-        "certification": (request.form.get("certification")).title(),
-        "email": (request.form.get("useremail")).title(),
-        "photos": request.form.get("photos")
-        })
+            "name": {
+                "firstname": (request.form.get("first_name")).title(),
+                "lastname": (request.form.get("last_name")).title()
+            },
+            "experience": (request.form.get("experience")).title(),
+            "certification": (request.form.get("certification")).title(),
+            "email": (request.form.get("useremail")).title(),
+            "photos": request.form.get("photos")
+            })
 
     database, useremail = af.get_database_from_form()
 
@@ -82,6 +81,7 @@ def search_dive(userid):
 def createdive(userid):
     return render_template('createdive.template.html')
 
+
 @app.route('/createdive/<userid>', methods=["POST"])
 def createdive_process(userid):
     client.project3.dive.insert_one({
@@ -98,28 +98,27 @@ def createdive_process(userid):
     return render_template('alldivelogs.template.html', dives=dives)
 
 
-
 # Edit dive
 @app.route('/editdive/<diveid>/<userid>')
-def edit_dive(diveid,userid):
+def edit_dive(diveid, userid):
 
     dives = af.dive_diveid(diveid)
     return render_template('editdive.template.html', dives=dives)
 
 
 @app.route('/editdive/<diveid>/<userid>', methods=["POST"])
-def edit_dive_process(diveid,userid):
+def edit_dive_process(diveid, userid):
     client.project3.dive.update_one({
-        "_id":ObjectId(diveid)
-    },{
-        "$set":{
+        "_id": ObjectId(diveid)
+        }, {
+        "$set": {
             "location": (request.form.get("location")).title(),
             "divesite": (request.form.get("divesite")).title(),
             "temperature": (request.form.get("temperature")).title(),
             "depth": (request.form.get("depth")).title(),
             "date": request.form.get("date"),
             "comments": (request.form.get("comments")).title()
-    }
+        }
     })
 
     dives = af.all_dives(userid)
@@ -137,11 +136,11 @@ def create_sighting_process(diveid, userid):
     # if no sighting photos upload by user - create a default image
     if request.form.get("photos") == '':
         client.project3.sightings.insert_one({
-        "userid": ObjectId(userid),
-        "diveid": ObjectId(diveid),
-        "species": (request.form.get("species")).title(),
-        "photos": 'https://ucarecdn.com/91ca9fa4-d421-4d73-a70f-350e75e0ab8b/',
-        "comments": (request.form.get("comments")).title()
+            "userid": ObjectId(userid),
+            "diveid": ObjectId(diveid),
+            "species": (request.form.get("species")).title(),
+            "photos": 'https://ucarecdn.com/91ca9fa4-d421-4d73-a70f-350e75e0ab8b/',
+            "comments": (request.form.get("comments")).title()
         })
 
     else:
@@ -171,15 +170,14 @@ def search_sights_per_dive(diveid):
     return render_template('per_sights.template.html', sights=sights)
 
 
-
 # Edit Sighting
 @app.route('/editsight/<sightid>/<userid>')
-def edit_sight(sightid,userid):
+def edit_sight(sightid, userid):
 
     sights = client.project3.sightings.find_one({
         "_id": ObjectId(sightid)
     }, {
-        'species': 1, 'photos':1, 'comments':1, 'userid':1, 'diveid':1
+        'species': 1, 'photos': 1, 'comments': 1, 'userid': 1, 'diveid': 1
     })
     return render_template('editsight.template.html', sights=sights, uploadcare_public_key=uploadcare_public_key)
 
@@ -200,15 +198,13 @@ def edit_sight_process(sightid, userid):
     return render_template('allsights.template.html', sights=sights, uploadcare_public_key=uploadcare_public_key)
 
 
-
-
 # Delete sightings
 @app.route('/delete/<userid>/<diveid>/<sightid>/<delete_status>')
 def delete(userid, diveid, sightid, delete_status):
-   
     return render_template('delete.template.html')
 
-@app.route('/delete/<userid>/<diveid>/<sightid>/<delete_status>' , methods=["POST"])
+
+@app.route('/delete/<userid>/<diveid>/<sightid>/<delete_status>', methods=["POST"])
 def delete_process(userid, diveid, sightid, delete_status):
     delete_status = delete_status
     if delete_status == 's':
@@ -244,7 +240,7 @@ def delete_process(userid, diveid, sightid, delete_status):
             "userid": ObjectId(userid),
         })
 
-        return redirect(url_for('search_index'))
+        return redirect(url_for('index'))
 
 
 @app.route('/searchall/', methods=["POST"])
@@ -275,9 +271,9 @@ def search_all_process():
         status = 'location'
         search_result = client.project3.dive.find({
             "divesite": (request.form.get("search")).title()
-    }, {
+        }, {
             'location': 1, 'divesite': 1, 'depth': 1, 'temperature': 1, 'date': 1, 'comments': 1, 'userid': 1
-    })
+        })
         print('divesite')
         return render_template('search_all.template.html', search_result=search_result, status=status)
 
@@ -285,9 +281,9 @@ def search_all_process():
         status = 'species'
         search_result = client.project3.sightings.find({
             "species": (request.form.get("search")).title()
-    }, {
-            'species': 1, 'photos':1, 'comments':1, 'userid':1, 'diveid':1
-    })
+        }, {
+            'species': 1, 'photos': 1, 'comments': 1, 'userid': 1, 'diveid': 1
+        })
         print('species')
         return render_template('search_all.template.html', search_result=search_result, status=status)
 

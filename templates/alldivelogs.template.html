@@ -1,24 +1,104 @@
-{% extends "index.template.html" %}
+{% extends "index.template.html" %} {% block content %}
 
-{% block content %}
-    <div>
-        <h1>All Dive logs</h1>
-
-        {%for r in dives %}
-         <ul>
-        <li>Location: {{r.location}}</li>
-        <li>Site: {{r.divesite}}</li>
-        <li>Depth: {{r.depth}}</li>
-        <li>Temperature: {{r.temperature}}</li>
-        <li>Date: {{r.date}}</li>
-        <li>Comments: {{r.comments}}</li>
-        <a href="{{ url_for('search_sights_per_dive' , diveid=r._id) }}">See sightings for this dive</a>
-        <a href="{{ url_for('create_sighting' , diveid=r._id , userid=r.userid) }}">Add a sighting </a>
-        <a href="{{ url_for('edit_dive' , diveid=r._id , userid=r.userid) }}">Edit Dive </a>
-        <a href="{{ url_for('delete' , diveid=r._id , userid=r.userid, sightid=0, delete_status='d') }}">Delete Dive </a>
-
-        </ul>
-        {%endfor%}
-    </div>
+<div class="row">
+  <div class="col-2"></div>
+  <div class="col-8 content-lastfive">
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th colspan="2" id="alldives">
+            ALL DIVE LOGS
+          </th>
+        </tr>
+      </thead>
+    </table>
+    {%for r in dives %}
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th colspan="2">
+            {{r.location}}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="col">
+            Dive Site
+          </th>
+          <td>
+            {{r.divesite}}
+          </td>
+        </tr>
+        <tr>
+          <th scope="col">
+            Temperature
+          </th>
+          <td>
+            {{r.temperature}}
+          </td>
+        </tr>
+        <tr>
+          <th scope="col">
+            Depth
+          </th>
+          <td>
+            {{r.depth}}
+          </td>
+        </tr>
+        <tr>
+          <th scope="col">
+            Date
+          </th>
+          <td>
+            {{r.date}}
+          </td>
+        </tr>
+        <tr>
+          <th scope="col">
+            Comments
+          </th>
+          <td>
+            {{r.comments}}
+          </td>
+        </tr>
+        <tr>
+          <th colspan="2">
+            <a href="{{ url_for('search_sights_per_dive' , diveid=r._id) }}"
+              >See sightings for this dive</a
+            >
+          </th>
+        </tr>
+        <tr>
+          <th colspan="2">
+            <a
+              href="{{ url_for('create_sighting' , diveid=r._id , userid=r.userid) }}"
+              >Add a sighting
+            </a>
+          </th>
+        </tr>
+        <tr>
+          <th colspan="2">
+            <a
+              href="{{ url_for('edit_dive' , diveid=r._id , userid=r.userid) }}"
+              >Edit Dive
+            </a>
+          </th>
+        </tr>
+        <tr>
+          <th colspan="2">
+            <a
+              class="delete-btn"
+              href="{{ url_for('delete' , diveid=r._id , userid=r.userid, sightid=0, delete_status='d') }}"
+              >Delete Dive
+            </a>
+          </th>
+        </tr>
+      </tbody>
+    </table>
+    {%endfor%}
+    <!-- </div> -->
+  </div>
+  <div class="col-2"></div>
+</div>
 {% endblock %}
-   
