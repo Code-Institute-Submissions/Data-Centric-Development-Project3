@@ -245,6 +245,8 @@ def delete_process(userid, diveid, sightid, delete_status):
 
 @app.route('/searchall/', methods=["POST"])
 def search_all_process():
+
+
     search_country = client.project3.dive.find_one({
         "location": (request.form.get("search")).title()
     })
@@ -255,6 +257,11 @@ def search_all_process():
 
     search_specie = client.project3.sightings.find_one({
         "species": (request.form.get("search")).title()
+    })
+
+    search_id = client.project3.sightings.find_one({
+        
+        "_id": request.form.get("search")
     })
 
     if search_country:
@@ -287,9 +294,20 @@ def search_all_process():
         print('species')
         return render_template('search_all.template.html', search_result=search_result, status=status)
 
+    elif search_id:
+        status = 'species'
+        search_result = client.project3.sightings.find({
+            "_id": request.form.get("search")
+        }, {
+            'species': 1, 'photos': 1, 'comments': 1, 'userid': 1, 'diveid': 1
+        })
+        print('species')
+        return render_template('search_all.template.html', search_result=search_result, status=status)
+
     else:
         status = 'nothing'
         return render_template('search_all.template.html', status=status)
+
 
 # "magic code" -- boilerplate
 if __name__ == '__main__':
