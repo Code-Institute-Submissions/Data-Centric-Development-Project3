@@ -205,8 +205,12 @@ def edit_sight_process(sightid, userid):
     }
     })
 
-    sights = af.get_sights_userid(userid)
-    return render_template('allsights.template.html', sights=sights, uploadcare_public_key=uploadcare_public_key)
+    database = client.project3.user.find_one({
+            "_id": ObjectId(userid)
+        }, {
+            'name': 1, 'experience': 1, 'certification':1, 'photos':1
+        })
+    return render_template('profile.template.html', database=database)
 
 
 # Delete sightings
