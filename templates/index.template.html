@@ -55,8 +55,8 @@
 </nav>
 {% block content %}
     <div class='row'>
-    <div class="col-2"></div>
-    <div class="col-8 content-lastfive">
+    <div class="col-0 col-lg-2"></div>
+    <div class="col-12 col-lg-8 content-lastfive">
     <img src="static/latestsightings.png"/>
     {%for r in lastentry %}
   
@@ -82,7 +82,7 @@
 
         {%endfor%}
     </div>
-    <div class="col-2"></div>
+    <div class="col-0 col-lg-2"></div>
     </div>
 
 {% endblock %}
