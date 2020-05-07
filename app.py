@@ -94,8 +94,12 @@ def createdive_process(userid):
         "comments": (request.form.get("comments")).title()
     })
 
-    dives = af.all_dives(userid)
-    return render_template('alldivelogs.template.html', dives=dives)
+    database = client.project3.user.find_one({
+            "_id": ObjectId(userid)
+        }, {
+            'name': 1, 'experience': 1, 'certification':1, 'photos':1
+        })
+    return render_template('profile.template.html', database=database)
 
 
 # Edit dive
@@ -121,8 +125,12 @@ def edit_dive_process(diveid, userid):
         }
     })
 
-    dives = af.all_dives(userid)
-    return render_template('alldivelogs.template.html', dives=dives)
+    database = client.project3.user.find_one({
+            "_id": ObjectId(userid)
+        }, {
+            'name': 1, 'experience': 1, 'certification':1, 'photos':1
+        })
+    return render_template('profile.template.html', database=database)
 
 
 # create new sighting
@@ -152,9 +160,12 @@ def create_sighting_process(diveid, userid):
             "comments": (request.form.get("comments")).title()
         })
 
-    sights = af.get_sights_userid(userid)
-
-    return render_template('allsights.template.html', sights=sights, uploadcare_public_key=uploadcare_public_key)
+    database = client.project3.user.find_one({
+            "_id": ObjectId(userid)
+        }, {
+            'name': 1, 'experience': 1, 'certification':1, 'photos':1
+        })
+    return render_template('profile.template.html', database=database)
 
 # see all sights
 @app.route('/sights/<userid>')
@@ -207,14 +218,19 @@ def delete(userid, diveid, sightid, delete_status):
 @app.route('/delete/<userid>/<diveid>/<sightid>/<delete_status>', methods=["POST"])
 def delete_process(userid, diveid, sightid, delete_status):
     delete_status = delete_status
+    # delete sightings
     if delete_status == 's':
         client.project3.sightings.delete_one({
             "_id": ObjectId(sightid),
         })
 
-        sights = af.get_sights_userid(userid)
-        return render_template('allsights.template.html', sights=sights)
-
+        database = client.project3.user.find_one({
+            "_id": ObjectId(userid)
+        }, {
+            'name': 1, 'experience': 1, 'certification':1, 'photos':1
+        })
+        return render_template('profile.template.html', database=database)
+    # delete dive log
     elif delete_status == 'd':
         client.project3.dive.delete_one({
             "_id": ObjectId(diveid),
@@ -224,9 +240,13 @@ def delete_process(userid, diveid, sightid, delete_status):
             "diveid": ObjectId(diveid),
         })
 
-        dives = af.all_dives(userid)
-        return render_template('alldivelogs.template.html', dives=dives)
-
+        database = client.project3.user.find_one({
+            "_id": ObjectId(userid)
+        }, {
+            'name': 1, 'experience': 1, 'certification':1, 'photos':1
+        })
+        return render_template('profile.template.html', database=database)
+    # delete user
     elif delete_status == 'u':
         client.project3.user.delete_one({
             "_id": ObjectId(userid),
