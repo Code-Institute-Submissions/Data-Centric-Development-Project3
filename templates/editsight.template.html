@@ -7,10 +7,10 @@
 
     <form method="POST" >
         <label>Species</label>
-        <input type="text" name="species" value="{{sights.species}}"/>
+        <input type="text" name="species" value="{{sights.species}}" required/>
         <br/>
         <label>Comments</label>
-        <input type="text" name="comments" value="{{sights.comments}}"/>
+        <input type="text" name="comments" value="{{sights.comments}}" />
         <br/>
         <input type="hidden" role="uploadcare-uploader" value="{{sights.photos}}" name="photos" />
         

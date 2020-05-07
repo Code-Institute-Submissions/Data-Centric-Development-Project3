@@ -6,18 +6,18 @@
 
     <form method="POST" action="{{ url_for('createuser') }}">
         <label>First Name</label>
-        <input type="text" name="first_name"/>
+        <input type="text" name="first_name" required/>
         <label>Last Name</label>
-        <input type="text" name="last_name"/>
+        <input type="text" name="last_name" required/>
         <br/>
         <label>Experience</label>
-        <input type="text" name="experience"/>
+        <input type="text" name="experience" required/>
         <br/>
         <label>Certification</label>
-        <input type="text" name="certification"/>
+        <input type="text" name="certification" required/>
         <br/>
         <label>Email</label>
-        <input type="text" name="useremail" value="{{useremail}}"/>
+        <input type="text" name="useremail" value="{{useremail}}" required readonly/>
         <br/>
         <input type="hidden" role="uploadcare-uploader" name="photos" />
         <input type="submit"/>
