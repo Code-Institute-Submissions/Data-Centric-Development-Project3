@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 import os
+import math
 import pymongo
 from bson.objectid import ObjectId
 import all_functions as af
@@ -73,8 +74,14 @@ def createuser():
 # see all dives
 @app.route('/dive/<userid>')
 def search_dive(userid):
-    dives = af.all_dives(userid)
-    return render_template('alldivelogs.template.html', dives=dives)
+    # pagination
+    entry_per_page = 1
+    max_pages = math.ceil(af.all_dives(userid).count() / entry_per_page)
+    current_page = int(request.args.get('page', 1))
+    # only show the first five
+    listings = af.all_dives(userid).skip((current_page-1)*entry_per_page).limit(entry_per_page)
+
+    return render_template('alldivelogs.template.html', results=listings, max_pages=max_pages, current_page=current_page)
 
 # create new dive
 @app.route('/createdive/<userid>')
