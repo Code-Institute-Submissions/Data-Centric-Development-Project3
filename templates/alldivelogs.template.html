@@ -6,7 +6,7 @@
   <img src="{{ url_for('static', filename = 'divelogs.png') }}" />
     
     {%for r in results %}
-    <table class="table">
+    <table class="table" id='test'>
       <thead class="thead-dark">
         <tr>
           <th colspan="2">
@@ -95,33 +95,105 @@
 </div>
 
 <div>
-
- 
-
+<nav aria-label="...">
+    <ul class="pagination">
 {%if max_pages >=6  %}
     {%if current_page < 4  %}
-        {%for p in range(1,6)%}
-        <a href="?page={{p}}">{{p}}</a>
-        {%endfor%}
+        {%if current_page == 1  %}
+            <li class="page-item ">
+                <a class="page-link active" href="?page=1" >1</a>
+            </li>
+            <li class="page-item ">
+                <a class="page-link " href="?page=2" >2</a>
+            </li>
+            <li class="page-item ">
+                <a class="page-link " href="?page=3" >3</a>
+            </li>
+            <li class="page-item ">
+                <a class="page-link " href="?page=4" >4</a>
+            </li>
+            
+
+        {%elif current_page == 2  %}
+            <li class="page-item ">
+                <a class="page-link " href="?page=1" >1</a>
+            </li>
+            <li class="page-item ">
+                <a class="page-link active" href="?page=2" >2</a>
+            </li>
+            <li class="page-item ">
+                <a class="page-link " href="?page=3" >3</a>
+            </li>
+            <li class="page-item ">
+                <a class="page-link " href="?page=4" >4</a>
+            </li>
+            
+
+        {%elif current_page == 3  %}
+            <li class="page-item ">
+                <a class="page-link " href="?page=1" >1</a>
+            </li>
+            <li class="page-item ">
+                <a class="page-link " href="?page=2" >2</a>
+            </li>
+            <li class="page-item ">
+                <a class="page-link active" href="?page=3" >3</a>
+            </li>
+            <li class="page-item ">
+                <a class="page-link " href="?page=4" >4</a>
+            </li>
+            
+        {%endif%}
 
     {% elif (current_page >= 4) and ((max_pages - current_page) >= 3) %}
-        {%for p in range(current_page - 3,current_page + 3)%}
-        <a href="?page={{p}}">{{p}}</a>
+        {%for p in range(current_page - 3,current_page-1)%}
+        <li class="page-item ">
+        <a class="page-link " href="?page={{p}}" >{{p}}</a>
+        </li>
         {%endfor%}
 
+        <li class="page-item ">
+        <a class="page-link active" href="?page={{current_page}}" >{{current_page}}</a>
+        </li>
+
+        {%for p in range(current_page+1, current_page+3)%}
+        <li class="page-item ">
+        <a class="page-link " href="?page={{p}}" >{{p}}</a>
+        </li>
+        {%endfor%}
+
+
     {% elif (current_page >= 4) and ((max_pages - current_page) < 3) %}
-        {%for p in range(current_page - 3, max_pages)%}
-        <a href="?page={{p}}">{{p}}</a>
+        {%for p in range(current_page - 3,current_page)%}
+        <li class="page-item ">
+        <a class="page-link " href="?page={{p}}" >{{p}}</a>
+        </li>
+        {%endfor%}
+
+        <li class="page-item ">
+        <a class="page-link active" href="?page={{current_page}}" >{{current_page}}</a>
+        </li>
+
+        {%for p in range(current_page+1, max_pages+1)%}
+        <li class="page-item ">
+        <a class="page-link " href="?page={{p}}" >{{p}}</a>
+        </li>
         {%endfor%}
     {%endif%}  
 
 {%else%}
     {%for p in range(1,max_pages)%}
-            <a href="?page={{p}}">{{p}}</a>
+            <li class="page-item ">
+        <a class="page-link active" href="?page={{p}}" >{{p}}</a>
+        </li>
             {%endfor%}
 {%endif%}  
 
+</ul>
+    </nav>
 </div>
+
+
 
 <div>
     <button class='back-btn' onclick="goBack()">Back To Profile</button>

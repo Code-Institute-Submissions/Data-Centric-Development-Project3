@@ -42,4 +42,9 @@ tr:hover {
   border-radius: 10px;
 }
 
-.back-btn:hover {opacity: 1}
+.pagination a.active {
+  background-color: blue;
+  color: white;
+}
+
+.pagination a:hover:not(.active) {background-color: #ddd;}
