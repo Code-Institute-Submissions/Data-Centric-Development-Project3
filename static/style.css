@@ -48,3 +48,11 @@ tr:hover {
 }
 
 .pagination a:hover:not(.active) {background-color: #ddd;}
+
+.pagination-div {
+    text-align: center;
+}
+
+.pagination-nav {
+    display: inline-block;
+}
