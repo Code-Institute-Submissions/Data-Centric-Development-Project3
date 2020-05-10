@@ -38,6 +38,18 @@ def search_process():
     else:
         return render_template('createuser.template.html', useremail=useremail, uploadcare_public_key=uploadcare_public_key)
 
+# go back to profile
+@app.route('/profile/<userid>')
+def profile(userid):
+    database = client.project3.user.find_one({
+            "_id": ObjectId(userid)
+        }, {
+            'name': 1, 'experience': 1, 'certification':1, 'photos':1
+        })
+
+    return render_template('profile.template.html', database=database)
+
+
 # new user to create account
 @app.route('/create',  methods=['POST'])
 def createuser():
@@ -75,7 +87,7 @@ def createuser():
 @app.route('/dive/<userid>')
 def search_dive(userid):
     # pagination
-    entry_per_page = 1
+    entry_per_page = 5
     max_pages = math.ceil(af.all_dives(userid).count() / entry_per_page)
     current_page = int(request.args.get('page', 1))
     listings = af.all_dives(userid).skip((current_page-1)*entry_per_page).limit(entry_per_page)
@@ -178,7 +190,7 @@ def create_sighting_process(diveid, userid):
 def search_sights(userid):
 
     # pagination
-    entry_per_page = 3
+    entry_per_page = 5
     max_pages = math.ceil(af.get_sights_userid(userid).count() / entry_per_page)
     current_page = int(request.args.get('page', 1))
     listings = af.get_sights_userid(userid).skip((current_page-1)*entry_per_page).limit(entry_per_page)
@@ -300,7 +312,6 @@ def search_all_process():
         }, {
             'location': 1, 'divesite': 1, 'depth': 1, 'temperature': 1, 'date': 1, 'comments': 1, 'userid': 1
         })
-        print('country')
         return render_template('search_all.template.html', search_result=search_result, status=status)
 
     elif search_divesite:
@@ -310,7 +321,6 @@ def search_all_process():
         }, {
             'location': 1, 'divesite': 1, 'depth': 1, 'temperature': 1, 'date': 1, 'comments': 1, 'userid': 1
         })
-        print('divesite')
         return render_template('search_all.template.html', search_result=search_result, status=status)
 
     elif search_specie:
@@ -320,7 +330,6 @@ def search_all_process():
         }, {
             'species': 1, 'photos': 1, 'comments': 1, 'userid': 1, 'diveid': 1
         })
-        print('species')
         return render_template('search_all.template.html', search_result=search_result, status=status)
 
     else:

@@ -76,6 +76,12 @@
               href="{{ url_for('edit_dive' , diveid=r._id , userid=r.userid) }}"
               >Edit Dive
             </a>
+            <a href="{{ url_for('profile' , userid=r.userid) }}">Back to profile</a>
+          </th>
+        </tr>
+        <tr>
+          <th colspan="2">
+            <a class="backprofile" href="{{ url_for('profile' , userid=r.userid) }}">Back to profile</a>
           </th>
         </tr>
         <tr>
@@ -281,6 +287,6 @@
 
 
 <div>
-    <button class='back-btn' onclick="goBack()">Back To Profile</button>
+    <button class='back-btn' onclick="goBack()">Back</button>
 </div>
 {% endblock %}

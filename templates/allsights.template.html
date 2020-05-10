@@ -34,6 +34,11 @@
         </tr>
         <tr>
           <th colspan="3">
+            <a class="backprofile" href="{{ url_for('profile' , userid=r.userid) }}">Back to profile</a>
+          </th>
+        </tr>
+        <tr>
+          <th colspan="3">
             <a class='delete-btn' href="{{ url_for('delete' , diveid=r.diveid , userid=r.userid, sightid=r._id, delete_status='s') }}">
             Delete Sighting</a
             >
@@ -233,6 +238,6 @@
 <!-- end of pagination -->
 
 <div>
-    <button class='back-btn' onclick="goBack()">Back To Profile</button>
+    <button class='back-btn' onclick="goBack()">Back</button>
 </div>
 {% endblock %}
