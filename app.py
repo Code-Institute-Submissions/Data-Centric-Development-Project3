@@ -78,7 +78,6 @@ def search_dive(userid):
     entry_per_page = 1
     max_pages = math.ceil(af.all_dives(userid).count() / entry_per_page)
     current_page = int(request.args.get('page', 1))
-    # only show the first five
     listings = af.all_dives(userid).skip((current_page-1)*entry_per_page).limit(entry_per_page)
 
     return render_template('alldivelogs.template.html', results=listings, max_pages=max_pages, current_page=current_page)
@@ -177,8 +176,14 @@ def create_sighting_process(diveid, userid):
 # see all sights
 @app.route('/sights/<userid>')
 def search_sights(userid):
-    sights = af.get_sights_userid(userid)
-    return render_template('allsights.template.html', sights=sights)
+
+    # pagination
+    entry_per_page = 3
+    max_pages = math.ceil(af.get_sights_userid(userid).count() / entry_per_page)
+    current_page = int(request.args.get('page', 1))
+    listings = af.get_sights_userid(userid).skip((current_page-1)*entry_per_page).limit(entry_per_page)
+
+    return render_template('allsights.template.html', results=listings, max_pages=max_pages, current_page=current_page)
 
 
 # see individual sights
