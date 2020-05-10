@@ -201,8 +201,14 @@ def search_sights(userid):
 # see individual sights
 @app.route('/sights_per_dive/<diveid>')
 def search_sights_per_dive(diveid):
-    sights = af.get_sights_diveid(diveid)
-    return render_template('per_sights.template.html', sights=sights)
+
+     # pagination
+    entry_per_page = 5
+    max_pages = math.ceil(af.get_sights_diveid(diveid).count() / entry_per_page)
+    current_page = int(request.args.get('page', 1))
+    listings = af.get_sights_diveid(diveid).skip((current_page-1)*entry_per_page).limit(entry_per_page)
+
+    return render_template('per_sights.template.html', results=listings, max_pages=max_pages, current_page=current_page)
 
 
 # Edit Sighting
