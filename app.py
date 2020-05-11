@@ -7,9 +7,10 @@ import all_functions as af
 from dotenv import load_dotenv
 load_dotenv()
 
-
+# MONGRO_URI from .env
 MONGO_URI = os.environ.get('MONGO_URI')
 client = pymongo.MongoClient(MONGO_URI)
+# uploadcare key from .env
 uploadcare_public_key = os.environ.get('UPLOADCARE_PUBLIC_KEY')
 
 
@@ -21,20 +22,20 @@ app = Flask(__name__)
 # search by email
 @app.route('/')
 def index():
-    # to find the latest 5 entries in sightings collection - create a default photo
+    # to find the latest 5 entries in sightings collection 
     lastentry = client.project3.sightings.find().sort("_id", -1).limit(5)
 
     return render_template('index.template.html', lastentry=lastentry)
 
-# when user enters email
+# after user enters email
 @app.route('/', methods=["POST"])
 def search_process():
 
     database, useremail = af.get_database_from_form()
-    # existing user
+    # existing email
     if database:
         return render_template('profile.template.html', database=database)
-    # new user
+    # new email
     else:
         return render_template('createuser.template.html', useremail=useremail, uploadcare_public_key=uploadcare_public_key)
 
@@ -44,7 +45,7 @@ def profile(userid):
     database = client.project3.user.find_one({
             "_id": ObjectId(userid)
         }, {
-            'name': 1, 'experience': 1, 'certification':1, 'photos':1
+            'name': 1, 'experience': 1, 'certification': 1, 'photos': 1
         })
 
     return render_template('profile.template.html', database=database)
@@ -53,7 +54,7 @@ def profile(userid):
 # new user to create account
 @app.route('/create',  methods=['POST'])
 def createuser():
-    # if no user profile photo uploaded
+    # if no user profile photo uploaded, input a default photo
     if request.form.get("photos") == '':
         client.project3.user.insert_one({
             "name": {
@@ -65,7 +66,7 @@ def createuser():
             "email": (request.form.get("useremail")).title(),
             "photos": 'https://ucarecdn.com/4c0ef6a3-a23e-45bc-9066-2ab52d39baae/'
         })
-
+    # user uploads photo
     else:
         client.project3.user.insert_one({
             "name": {
@@ -168,7 +169,7 @@ def create_sighting_process(diveid, userid):
             "photos": 'https://ucarecdn.com/91ca9fa4-d421-4d73-a70f-350e75e0ab8b/',
             "comments": (request.form.get("comments")).title()
         })
-
+    # user uploads photo
     else:
         client.project3.sightings.insert_one({
             "userid": ObjectId(userid),
@@ -181,7 +182,7 @@ def create_sighting_process(diveid, userid):
     database = client.project3.user.find_one({
             "_id": ObjectId(userid)
         }, {
-            'name': 1, 'experience': 1, 'certification':1, 'photos':1
+            'name': 1, 'experience': 1, 'certification': 1, 'photos': 1
         })
     return render_template('profile.template.html', database=database)
 
@@ -198,11 +199,11 @@ def search_sights(userid):
     return render_template('allsights.template.html', results=listings, max_pages=max_pages, current_page=current_page)
 
 
-# see individual sights
+# see sights per dive
 @app.route('/sights_per_dive/<diveid>')
 def search_sights_per_dive(diveid):
 
-     # pagination
+    # pagination
     entry_per_page = 5
     max_pages = math.ceil(af.get_sights_diveid(diveid).count() / entry_per_page)
     current_page = int(request.args.get('page', 1))
@@ -211,7 +212,7 @@ def search_sights_per_dive(diveid):
     return render_template('per_sights.template.html', results=listings, max_pages=max_pages, current_page=current_page)
 
 
-# Edit Sighting
+# Edit Sightings
 @app.route('/editsight/<sightid>/<userid>')
 def edit_sight(sightid, userid):
 
@@ -243,7 +244,7 @@ def edit_sight_process(sightid, userid):
     return render_template('profile.template.html', database=database)
 
 
-# Delete sightings
+# Delete
 @app.route('/delete/<userid>/<diveid>/<sightid>/<delete_status>')
 def delete(userid, diveid, sightid, delete_status):
     return render_template('delete.template.html')
@@ -264,7 +265,7 @@ def delete_process(userid, diveid, sightid, delete_status):
             'name': 1, 'experience': 1, 'certification':1, 'photos':1
         })
         return render_template('profile.template.html', database=database)
-    # delete dive log
+    # delete dive log - to delete all related sightings too
     elif delete_status == 'd':
         client.project3.dive.delete_one({
             "_id": ObjectId(diveid),
@@ -280,7 +281,7 @@ def delete_process(userid, diveid, sightid, delete_status):
             'name': 1, 'experience': 1, 'certification':1, 'photos':1
         })
         return render_template('profile.template.html', database=database)
-    # delete user
+    # delete user - to delete all realted dives and sightings too
     elif delete_status == 'u':
         client.project3.user.delete_one({
             "_id": ObjectId(userid),
@@ -296,7 +297,7 @@ def delete_process(userid, diveid, sightid, delete_status):
 
         return redirect(url_for('index'))
 
-
+# Search
 @app.route('/searchall/', methods=["POST"])
 def search_all_process():
     search_country = client.project3.dive.find_one({
@@ -310,7 +311,7 @@ def search_all_process():
     search_specie = client.project3.sightings.find_one({
         "species": (request.form.get("search")).title()
     })
-
+    # if search input matches country
     if search_country:
         status = 'location'
         search_result = client.project3.dive.find({
@@ -320,6 +321,7 @@ def search_all_process():
         })
         return render_template('search_all.template.html', search_result=search_result, status=status)
 
+    # if search input matches divesite
     elif search_divesite:
         status = 'location'
         search_result = client.project3.dive.find({
@@ -329,6 +331,7 @@ def search_all_process():
         })
         return render_template('search_all.template.html', search_result=search_result, status=status)
 
+    # if search input matches species
     elif search_specie:
         status = 'species'
         search_result = client.project3.sightings.find({
@@ -338,9 +341,11 @@ def search_all_process():
         })
         return render_template('search_all.template.html', search_result=search_result, status=status)
 
+    # invalid search
     else:
         status = 'nothing'
         return render_template('search_all.template.html', status=status)
+
 
 # "magic code" -- boilerplate
 if __name__ == '__main__':

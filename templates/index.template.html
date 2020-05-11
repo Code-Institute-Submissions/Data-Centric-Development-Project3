@@ -7,15 +7,20 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- Google fonts css -->
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Merienda:wght@700&family=Source+Code+Pro:wght@700&display=swap" rel="stylesheet"> 
+    <!-- Generic css -->
     <link rel="stylesheet" href="{{ url_for('static', filename = 'style.css') }}">
+    <!-- Upload care public key -->
     <script>UPLOADCARE_PUBLIC_KEY = "{{uploadcare_public_key}}";</script>
+    <!-- Upload care cdn -->
     <script src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js" charset="utf-8"></script>
     <title>LogIt - The Virtual Dive Log</title>
   </head>
   <body>
     
 
-    <!-- nav bar -->
+<!-- nav bar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <a class="navbar-brand" href="{{ url_for('index') }}"><img src="{{ url_for('static', filename = 'logo.png') }}"></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -59,10 +64,9 @@
     <div class="col-0 col-lg-2"></div>
     <div class="col-12 col-lg-8 content-lastfive">
     <img src="static/latestsightings.png"/>
-    {%for r in lastentry %}
+<!-- last 5 sightings -->
+{%for r in lastentry %}
   
-
-
 <table class="table">
   <thead class="thead-dark">
     <tr>
@@ -81,7 +85,7 @@
   </tbody>
 </table>
 
-        {%endfor%}
+{%endfor%}
     </div>
     <div class="col-0 col-lg-2"></div>
     </div>
@@ -89,12 +93,12 @@
 {% endblock %}
 
     
-
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <!-- Generic JS -->
     <script src="{{ url_for('static', filename = 'app.js') }}" ></script>
   </body>
 </html>

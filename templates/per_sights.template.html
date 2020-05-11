@@ -54,188 +54,185 @@
 <div class='pagination-div'>
 <nav aria-label="..." class='pagination-nav'>
     <ul class="pagination">
-{%if max_pages >=6  %}
-    {%if current_page < 4  %}
-        {%if current_page == 1  %}
-            <li class="page-item ">
-                <a class="page-link active" href="?page=1" >1</a>
-            </li>
-            <li class="page-item ">
-                <a class="page-link " href="?page=2" >2</a>
-            </li>
-            <li class="page-item ">
-                <a class="page-link " href="?page=3" >3</a>
-            </li>
-            <li class="page-item ">
-                <a class="page-link " href="?page=4" >4</a>
-            </li>
-            
+      <!-- if total pages more than 5 -->
+      {%if max_pages >=6 %} 
+        <!-- when current page is less than 4 -->
+        {%if current_page < 4 %} 
+                <!-- hard code when curren page is 1 to 3 -->
+                {%if current_page == 1 %}
+                    <li class="page-item">
+                        <a class="page-link active" href="?page=1">1</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=2">2</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=3">3</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=4">4</a>
+                    </li>
 
-        {%elif current_page == 2  %}
-            <li class="page-item ">
-                <a class="page-link " href="?page=1" >1</a>
-            </li>
-            <li class="page-item ">
-                <a class="page-link active" href="?page=2" >2</a>
-            </li>
-            <li class="page-item ">
-                <a class="page-link " href="?page=3" >3</a>
-            </li>
-            <li class="page-item ">
-                <a class="page-link " href="?page=4" >4</a>
-            </li>
-            
+                    {%elif current_page == 2 %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1">1</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link active" href="?page=2">2</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=3">3</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=4">4</a>
+                    </li>
 
-        {%elif current_page == 3  %}
-            <li class="page-item ">
-                <a class="page-link " href="?page=1" >1</a>
+                    {%elif current_page == 3 %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1">1</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=2">2</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link active" href="?page=3">3</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=4">4</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=5">5</a>
+                    </li>
+                {%endif%} 
+        <!-- current page more than 3 and to last page more than 2 -->
+        {% elif (current_page >= 4) and ((max_pages - current_page) >=3) %} 
+            <!-- display all pages before active -->
+            {%for p in range(current_page - 3,current_page)%}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{p}}">{{p}}</a>
+                </li>
+            {%endfor%}
+            <!-- display active page -->
+            <li class="page-item">
+                <a class="page-link active" href="?page={{current_page}}"
+                >{{current_page}}</a
+                >
             </li>
-            <li class="page-item ">
-                <a class="page-link " href="?page=2" >2</a>
+            <!-- display all pages after active -->
+            {%for p in range(current_page+1, current_page+3)%}
+            <li class="page-item">
+                <a class="page-link" href="?page={{p}}">{{p}}</a>
             </li>
-            <li class="page-item ">
-                <a class="page-link active" href="?page=3" >3</a>
+            {%endfor%} 
+
+        <!-- current page more than 3 and to last page less than 3 -->
+        {% elif (current_page >= 4) and ((max_pages - current_page) < 3) %} 
+            <!-- display all pages before active -->
+            {%for p in range(current_page - 3,current_page)%}
+            <li class="page-item">
+                <a class="page-link" href="?page={{p}}">{{p}}</a>
             </li>
-            <li class="page-item ">
-                <a class="page-link " href="?page=4" >4</a>
+            {%endfor%}
+            <!-- display active page -->
+            <li class="page-item">
+                <a class="page-link active" href="?page={{current_page}}"
+                >{{current_page}}</a
+                >
             </li>
-            <li class="page-item ">
-                <a class="page-link " href="?page=5" >5</a>
+            <!-- display all pages after active -->
+            {%for p in range(current_page+1, max_pages+1)%}
+            <li class="page-item">
+                <a class="page-link" href="?page={{p}}">{{p}}</a>
             </li>
-            
+            {%endfor%} 
         {%endif%}
 
-    {% elif (current_page >= 4) and ((max_pages - current_page) >= 3) %}
-        {%for p in range(current_page - 3,current_page)%}
-        <li class="page-item ">
-        <a class="page-link " href="?page={{p}}" >{{p}}</a>
+      <!-- max page 1 to 5  -->
+      {%else%} 
+        <!-- hard code active page from page 1 to 5 -->
+        {%if current_page == 1 %}
+        <li class="page-item">
+            <a class="page-link active" href="?page=1">1</a>
         </li>
-        {%endfor%}
-
-        <li class="page-item ">
-        <a class="page-link active" href="?page={{current_page}}" >{{current_page}}</a>
-        </li>
-
-        {%for p in range(current_page+1, current_page+3)%}
-        <li class="page-item ">
-        <a class="page-link " href="?page={{p}}" >{{p}}</a>
-        </li>
-        {%endfor%}
-
-
-    {% elif (current_page >= 4) and ((max_pages - current_page) < 3) %}
-        {%for p in range(current_page - 3,current_page)%}
-        <li class="page-item ">
-        <a class="page-link " href="?page={{p}}" >{{p}}</a>
-        </li>
-        {%endfor%}
-
-        <li class="page-item ">
-        <a class="page-link active" href="?page={{current_page}}" >{{current_page}}</a>
-        </li>
-
         {%for p in range(current_page+1, max_pages+1)%}
-        <li class="page-item ">
-        <a class="page-link " href="?page={{p}}" >{{p}}</a>
+        <li class="page-item">
+            <a class="page-link" href="?page={{p}}">{{p}}</a>
         </li>
-        {%endfor%}
-    {%endif%}  
-
-<!-- max page 1 to 5  -->
-{%else%}
-    {%if current_page == 1  %}
-            <li class="page-item ">
-                <a class="page-link active" href="?page=1" >1</a>
-            </li>
-            {%for p in range(current_page+1, max_pages+1)%}
-            <li class="page-item ">
-                <a class="page-link " href="?page={{p}}" >{{p}}</a>
-            </li>
-            {%endfor%}
-            
-
-        {%elif current_page == 2  %}
-            <li class="page-item ">
-                <a class="page-link " href="?page=1" >1</a>
-            </li>
-            <li class="page-item ">
-                <a class="page-link active" href="?page=2" >2</a>
-            </li>
-            {%for p in range(current_page+1, max_pages+1)%}
-            <li class="page-item ">
-                <a class="page-link " href="?page={{p}}" >{{p}}</a>
-            </li>
-            {%endfor%}
-            
-
-        {%elif current_page == 3  %}
-            <li class="page-item ">
-                <a class="page-link " href="?page=1" >1</a>
-            </li>
-            <li class="page-item ">
-                <a class="page-link " href="?page=2" >2</a>
-            </li>
-            <li class="page-item ">
-                <a class="page-link active" href="?page=3" >3</a>
-            </li>
-            {%for p in range(current_page+1, max_pages+1)%}
-            <li class="page-item ">
-                <a class="page-link " href="?page={{p}}" >{{p}}</a>
-            </li>
-            {%endfor%}
-
-
-        {%elif current_page == 4  %}
-            <li class="page-item ">
-                <a class="page-link " href="?page=1" >1</a>
-            </li>
-            <li class="page-item ">
-                <a class="page-link " href="?page=2" >2</a>
-            </li>
-            <li class="page-item ">
-                <a class="page-link " href="?page=3" >3</a>
-            </li>
-            <li class="page-item ">
-                <a class="page-link active" href="?page=4" >4</a>
-            </li>
-            {%for p in range(current_page+1, max_pages+1)%}
-            <li class="page-item ">
-                <a class="page-link " href="?page={{p}}" >{{p}}</a>
-            </li>
-            {%endfor%}
-
-
-        {%elif current_page == 5  %}
-            <li class="page-item ">
-                <a class="page-link " href="?page=1" >1</a>
-            </li>
-            <li class="page-item ">
-                <a class="page-link " href="?page=2" >2</a>
-            </li>
-            <li class="page-item ">
-                <a class="page-link " href="?page=3" >3</a>
-            </li>
-            <li class="page-item ">
-                <a class="page-link " href="?page=4" >4</a>
-            </li>
-            <li class="page-item ">
-                <a class="page-link active" href="?page=5" >5</a>
-            </li>
-            {%for p in range(current_page+1, max_pages+1)%}
-            <li class="page-item ">
-                <a class="page-link " href="?page={{p}}" >{{p}}</a>
-            </li>
-            {%endfor%}
-            
-        {%endif%}
-{%endif%}  
-
-</ul>
-    </nav>
+        {%endfor%} 
+        {%elif current_page == 2 %}
+        <li class="page-item">
+            <a class="page-link" href="?page=1">1</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link active" href="?page=2">2</a>
+        </li>
+        {%for p in range(current_page+1, max_pages+1)%}
+        <li class="page-item">
+            <a class="page-link" href="?page={{p}}">{{p}}</a>
+        </li>
+        {%endfor%} 
+        {%elif current_page == 3 %}
+        <li class="page-item">
+            <a class="page-link" href="?page=1">1</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="?page=2">2</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link active" href="?page=3">3</a>
+        </li>
+        {%for p in range(current_page+1, max_pages+1)%}
+        <li class="page-item">
+            <a class="page-link" href="?page={{p}}">{{p}}</a>
+        </li>
+        {%endfor%} 
+        {%elif current_page == 4 %}
+        <li class="page-item">
+            <a class="page-link" href="?page=1">1</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="?page=2">2</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="?page=3">3</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link active" href="?page=4">4</a>
+        </li>
+        {%for p in range(current_page+1, max_pages+1)%}
+        <li class="page-item">
+            <a class="page-link" href="?page={{p}}">{{p}}</a>
+        </li>
+        {%endfor%} 
+        {%elif current_page == 5 %}
+        <li class="page-item">
+            <a class="page-link" href="?page=1">1</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="?page=2">2</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="?page=3">3</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="?page=4">4</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link active" href="?page=5">5</a>
+        </li>
+        {%for p in range(current_page+1, max_pages+1)%}
+        <li class="page-item">
+            <a class="page-link" href="?page={{p}}">{{p}}</a>
+        </li>
+        {%endfor%} 
+       {%endif%} 
+      {%endif%}
+    </ul>
+  </nav>
 </div>
 <!-- end of pagination -->
 
-
+<!-- back button -->
 <div>
     <button class='back-btn' onclick="goBack()">Back</button>
 </div>

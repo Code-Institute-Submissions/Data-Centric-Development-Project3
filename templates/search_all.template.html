@@ -1,145 +1,145 @@
-{% extends "index.template.html" %}
-
-
-{% block content %}
-   
-
+{% extends "index.template.html" %} {% block content %}
+<!-- search all templates -->
 <div class="row">
   <div class="col-0 col-lg-2"></div>
   <div class="col-12 col-lg-8 content-lastfive">
     <img src="{{ url_for('static', filename = 'search.png') }}" />
 
-{% if status == 'location' %}
-{%for r in search_result %}
-    <table class="table">
-      <thead class="thead-dark">
-        <tr>
-          <th colspan="2">
-            {{r.location}}
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th scope="col">
-            Dive Site
-          </th>
-          <td>
-            {{r.divesite}}
-          </td>
-        </tr>
-        <tr>
-          <th scope="col">
-            Temperature
-          </th>
-          <td>
-            {{r.temperature}}
-          </td>
-        </tr>
-        <tr>
-          <th scope="col">
-            Depth
-          </th>
-          <td>
-            {{r.depth}}
-          </td>
-        </tr>
-        <tr>
-          <th scope="col">
-            Date
-          </th>
-          <td>
-            {{r.date}}
-          </td>
-        </tr>
-        <tr>
-          <th scope="col">
-            Comments
-          </th>
-          <td>
-            {{r.comments}}
-          </td>
-        </tr>
-        <tr>
-          <th colspan="2">
-            <a href="{{ url_for('search_sights_per_dive' , diveid=r._id) }}"
-              >See sightings for this dive</a
-            >
-          </th>
-        </tr>
-        <tr>
-          <th colspan="2">
-            <a
-              href="{{ url_for('edit_dive' , diveid=r._id , userid=r.userid) }}"
-              >Edit Dive
-            </a>
-          </th>
-        </tr>
-        <tr>
-          <th colspan="2">
-            <a
-              class="delete-btn"
-              href="{{ url_for('delete' , diveid=r._id , userid=r.userid, sightid=0, delete_status='d') }}"
-              >Delete Dive
-            </a>
-          </th>
-        </tr>
-      </tbody>
-    </table>
-    {%endfor%}
-
-    {% elif status == 'species' %}
-{%for r in search_result %}
-<table class="table">
-      <thead class="thead-dark">
-        <tr>
-          <th scope="col">Image</th>
-          <th scope="col">Species</th>
-          <th scope="col">Comments</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th scope="row" class="image-row">
-            <img src="{{r.photos}}" alt="Image not found" />
-          </th>
-          <td>{{r.species}}</td>
-          <td>{{r.comments}}</td>
-        </tr>
-        <tr>
-          <th colspan="3">
-            <a href="{{ url_for('edit_sight' , sightid=r._id , userid=r.userid) }}">
-            Edit Sighting</a
-            >
-          </th>
-        </tr>
-        <tr>
-          <th colspan="3">
-            <a class='delete-btn' href="{{ url_for('delete' , diveid=r.diveid , userid=r.userid, sightid=r._id, delete_status='s') }}">
-            Delete Sighting</a
-            >
-          </th>
-        </tr>
-      </tbody>
-    </table>
-{%endfor%}
-
+    <!-- search by country or divesite-->
+    {% if status == 'location' %} 
+        {%for r in search_result %}
+        <table class="table">
+        <thead class="thead-dark">
+            <tr>
+            <th colspan="2">
+                {{r.location}}
+            </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+            <th scope="col">
+                Dive Site
+            </th>
+            <td>
+                {{r.divesite}}
+            </td>
+            </tr>
+            <tr>
+            <th scope="col">
+                Temperature
+            </th>
+            <td>
+                {{r.temperature}}
+            </td>
+            </tr>
+            <tr>
+            <th scope="col">
+                Depth
+            </th>
+            <td>
+                {{r.depth}}
+            </td>
+            </tr>
+            <tr>
+            <th scope="col">
+                Date
+            </th>
+            <td>
+                {{r.date}}
+            </td>
+            </tr>
+            <tr>
+            <th scope="col">
+                Comments
+            </th>
+            <td>
+                {{r.comments}}
+            </td>
+            </tr>
+            <tr>
+            <th colspan="2">
+                <a href="{{ url_for('search_sights_per_dive' , diveid=r._id) }}"
+                >See sightings for this dive</a
+                >
+            </th>
+            </tr>
+            <tr>
+            <th colspan="2">
+                <a
+                href="{{ url_for('edit_dive' , diveid=r._id , userid=r.userid) }}"
+                >Edit Dive
+                </a>
+            </th>
+            </tr>
+            <tr>
+            <th colspan="2">
+                <a
+                class="delete-btn"
+                href="{{ url_for('delete' , diveid=r._id , userid=r.userid, sightid=0, delete_status='d') }}"
+                >Delete Dive
+                </a>
+            </th>
+            </tr>
+        </tbody>
+        </table>
+        {%endfor%} 
+    <!-- search by species -->
+    {% elif status == 'species' %} 
+        {%for r in search_result %}
+        <table class="table">
+        <thead class="thead-dark">
+            <tr>
+            <th scope="col">Image</th>
+            <th scope="col">Species</th>
+            <th scope="col">Comments</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+            <th scope="row" class="image-row">
+                <img src="{{r.photos}}" alt="Image not found" />
+            </th>
+            <td>{{r.species}}</td>
+            <td>{{r.comments}}</td>
+            </tr>
+            <tr>
+            <th colspan="3">
+                <a
+                href="{{ url_for('edit_sight' , sightid=r._id , userid=r.userid) }}"
+                >
+                Edit Sighting</a
+                >
+            </th>
+            </tr>
+            <tr>
+            <th colspan="3">
+                <a
+                class="delete-btn"
+                href="{{ url_for('delete' , diveid=r.diveid , userid=r.userid, sightid=r._id, delete_status='s') }}"
+                >
+                Delete Sighting</a
+                >
+            </th>
+            </tr>
+        </tbody>
+        </table>
+        {%endfor%} 
+    <!-- no search result -->
     {% elif status == 'nothing' %}
     <div>
-    <h1>No result found</h1>
+      <br />
+      <br />
+      <h1>No result found</h1>
     </div>
- {% endif %}
-
-
-
+    {% endif %}
   </div>
   <div class="col-0 col-lg-2"></div>
 </div>
 
-
+<!-- back button -->
 <div>
-    <button class='back-btn' onclick="goBack()">Back To Profile</button>
+  <button class="back-btn" onclick="goBack()">Back</button>
 </div>
-
 
 {% endblock %}

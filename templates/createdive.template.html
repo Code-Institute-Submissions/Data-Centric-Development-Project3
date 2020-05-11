@@ -1,5 +1,7 @@
-{% extends "index.template.html" %} {% block content %}
+{% extends "index.template.html" %} 
+{% block content %}
 
+<!-- create dive form template -->
 <div class="card card-outline-secondary">
   <div class="card-header">
     <h3 class="mb-0">Create Dive</h3>
@@ -11,7 +13,13 @@
           >Country</label
         >
         <div class="col-lg-9">
-          <input class="form-control" type="text" name="location" required />
+          <input
+            class="form-control"
+            type="text"
+            name="location"
+            required
+            maxlength="30"
+          />
         </div>
       </div>
       <div class="form-group row">
@@ -19,7 +27,13 @@
           >Dive Site</label
         >
         <div class="col-lg-9">
-          <input class="form-control" type="text" name="divesite" required />
+          <input
+            class="form-control"
+            type="text"
+            name="divesite"
+            required
+            maxlength="30"
+          />
         </div>
       </div>
       <div class="form-group row">
@@ -27,13 +41,25 @@
           >Temperature</label
         >
         <div class="col-lg-9">
-          <input class="form-control" type="text" name="temperature" required />
+          <input
+            class="form-control"
+            type="text"
+            name="temperature"
+            required
+            maxlength="20"
+          />
         </div>
       </div>
       <div class="form-group row">
         <label class="col-lg-3 col-form-label form-control-label">Depth</label>
         <div class="col-lg-9">
-          <input class="form-control" type="text" name="depth" required />
+          <input
+            class="form-control"
+            type="text"
+            name="depth"
+            required
+            maxlength="20"
+          />
         </div>
       </div>
       <div class="form-group row">
@@ -47,7 +73,12 @@
           >Comments</label
         >
         <div class="col-lg-9">
-          <input class="form-control" type="text" name="comments" />
+          <input
+            class="form-control"
+            type="text"
+            name="comments"
+            maxlength="100"
+          />
         </div>
       </div>
       <div class="form-group row">
@@ -59,5 +90,9 @@
     </form>
   </div>
 
+<!-- back button -->
+<div>
+  <button class="back-btn" onclick="goBack()">Back</button>
+</div>
   {% endblock %}
 </div>

@@ -1,5 +1,8 @@
-{% extends "index.template.html" %} {% block content %}
+{% extends "index.template.html" %} 
 
+{% block content %}
+
+<!-- edit dive form template -->
 <div class="card card-outline-secondary">
   <div class="card-header">
     <h3 class="mb-0">Create Dive</h3>
@@ -17,6 +20,7 @@
             name="location"
             value="{{dives.location}}"
             required
+            maxlength="30"
           />
         </div>
       </div>
@@ -31,6 +35,7 @@
             name="divesite"
             value="{{dives.divesite}}"
             required
+            maxlength="30"
           />
         </div>
       </div>
@@ -45,6 +50,7 @@
             name="temperature"
             value="{{dives.temperature}}"
             required
+            maxlength="20"
           />
         </div>
       </div>
@@ -57,6 +63,7 @@
             name="depth"
             value="{{dives.depth}}"
             required
+            maxlength="20"
           />
         </div>
       </div>
@@ -82,6 +89,7 @@
             type="text"
             name="comments"
             value="{{dives.comments}}"
+            maxlength="100"
           />
         </div>
       </div>
@@ -94,5 +102,9 @@
     </form>
   </div>
 
+<!-- back button -->
+<div>
+  <button class="back-btn" onclick="goBack()">Back</button>
+</div>
   {% endblock %}
 </div>
