@@ -60,3 +60,10 @@ tr:hover {
 .backprofile {
     color: green;
 }
+
+
+/* fixed all tabel column size */
+table
+{
+    table-layout: fixed;
+}

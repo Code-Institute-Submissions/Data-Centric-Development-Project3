@@ -3,9 +3,31 @@
 
 {% block content %}
 
-    <h1>Are you sure?</h1>
-    <button onclick="goBack()">Go Back</button>
-    <form method="POST" >
-        <input type="submit"/>
-    </form>
+
+<div class="card card-outline-secondary">
+                        <div class="card-body">
+                            <h3 class="text-center">Are you sure?</h3>
+                            <hr>
+                            <form class="form" role="form" autocomplete="off" method="POST">
+                                <div class="form-group row">
+                                <div class="col-md-2">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <button onclick="goBack()" class="btn btn-default btn-lg btn-block">Cancel</button>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <button type="submit" class="btn btn-danger btn-lg btn-block" class='delete-btn' value="Delete">Delete</button>
+                                    </div>
+                                    <div class="col-md-2">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+
+
+
+
+
 {% endblock %}
