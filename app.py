@@ -27,6 +27,12 @@ def index():
 
     return render_template('index.template.html', lastentry=lastentry)
 
+# about
+@app.route('/about')
+def about():
+    return render_template('about.template.html')
+
+
 # after user enters email
 @app.route('/', methods=["POST"])
 def search_process():

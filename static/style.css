@@ -92,3 +92,13 @@ table
 #search-form {
     font-family: 'Merienda', cursive;
 }
+
+.intro-header {
+    background-color: teal;
+    border-radius: 20px;
+    opacity: 0.7;
+}
+
+#welcome {
+    text-align: center;
+}
