@@ -1,7 +1,7 @@
+// go back to last oage
 function goBack() {
   window.history.back()
 }
-
 
 
 // to get species name when click on
@@ -18,9 +18,7 @@ $('.get-species').click(function(){
         $('#allsearch-form').val(species_name)
         // submit form
         $("#search-form").submit()
-
     }
-
     // else fetch the species name and submit
     else{
     // set species name
@@ -30,6 +28,4 @@ $('.get-species').click(function(){
     // submit form
     $("#search-form").submit()
     }
-    
-
 })

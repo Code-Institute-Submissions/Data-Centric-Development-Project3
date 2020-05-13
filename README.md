@@ -1,39 +1,33 @@
-<img src="https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png" style="margin: 0;">
+# LogIt - The Virtual Dive Log
+## Data-Centric-Development-Project3
 
-Welcome boonhui91,
+## DEMO
 
-This is the Code Institute student template for Gitpod. We have preinstalled all of the tools you need to get started. You can safely delete this README.md file, or change it for your own project.
+A live demo website can be found here : <https://bh-logit.herokuapp.com/>
 
-## Gitpod Reminders
+![Responsive](/resources/responsive.JPG)
 
-To run a frontend (HTML, CSS, Javascript only) application in Gitpod, in the terminal, type:
+## Context
+LogIt is a mobile-responsive web app that has a focus on the data-centric approach development. 
 
-`python3 -m http.server`
+In a nutshell, LogIt is to challenge the way how Divers keep their dive logs conventionally using a physical log book. 
 
-A blue button should appear to click: *Make Public*,
+With the use of a database, User will be able to store and access all their dive logs information online, and even create a 
+sighting log with photo attached if they spot some interesting marine life during the dive! 
 
-Another blue button should appear to click: *Open Browser*.
+# UX
+### STRATEGY
+* Target audience
+    - Locals looking to find more information about Dengue in Singapore.
+    - Locals interested to find out where are the Dengue clusters locally.
+    - Users interested in seeing the correlationship between Dengue cases and other environmental factors.
+* Goals
+	- to promote awareness about Dengue Fever (Owner)
+	- to consolidate the different information across different Government sites into one (Owner)
+	- to learn more about Dengue Fever in Singapore (User)
+	- to find out more about the local clusters and breeding habitat (User)
 
-To run a backend Python file, type `python3 app.py`, if your Python file is named `app.py` of course.
 
-A blue button should appear to click: *Make Public*,
 
-Another blue button should appear to click: *Open Browser*.
 
-In Gitpod you have superuser security privileges by default. Therefore you do not need to use the `sudo` (superuser do) command in the bash terminal in any of the backend lessons.
 
-## Updates Since The Instructional Video
-
-We continually tweak and adjust this template to help give you the best experience. Here are the updates since the original video was made:
-
-**April 16 2020:** The template now automatically installs MySQL instead of relying on the Gitpod MySQL image. The message about a Python linter not being installed has been dealt with, and the set-up files are now hidden in the Gitpod file explorer.
-
-**April 13 2020:** Added the _Prettier_ code beautifier extension instead of the code formatter built-in to Gitpod.
-
-**February 2020:** The initialisation files now _do not_ auto-delete. They will remain in your project. You can safely ignore them. They just make sure that your workspace is configured correctly each time you open it. It will also prevent the Gitpod configuration popup from appearing.
-
-**December 2019:** Added Eventyret's Bootstrap 4 extension. Type `!bscdn` in a HTML file to add the Bootstrap boilerplate. Check out the <a href="https://github.com/Eventyret/vscode-bcdn" target="_blank">README.md file at the official repo</a> for more options.
-
---------
-
-Happy coding!

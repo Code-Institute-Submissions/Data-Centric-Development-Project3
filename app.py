@@ -19,6 +19,13 @@ uploadcare_public_key = os.environ.get('UPLOADCARE_PUBLIC_KEY')
 
 app = Flask(__name__)
 
+
+# error handling 404
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
+
 # search by email
 @app.route('/')
 def index():
@@ -122,7 +129,7 @@ def createdive_process(userid):
     database = client.project3.user.find_one({
             "_id": ObjectId(userid)
         }, {
-            'name': 1, 'experience': 1, 'certification':1, 'photos':1
+            'name': 1, 'experience': 1, 'certification': 1, 'photos': 1
         })
     return render_template('profile.template.html', database=database)
 
@@ -153,7 +160,7 @@ def edit_dive_process(diveid, userid):
     database = client.project3.user.find_one({
             "_id": ObjectId(userid)
         }, {
-            'name': 1, 'experience': 1, 'certification':1, 'photos':1
+            'name': 1, 'experience': 1, 'certification': 1, 'photos': 1
         })
     return render_template('profile.template.html', database=database)
 
@@ -245,7 +252,7 @@ def edit_sight_process(sightid, userid):
     database = client.project3.user.find_one({
             "_id": ObjectId(userid)
         }, {
-            'name': 1, 'experience': 1, 'certification':1, 'photos':1
+            'name': 1, 'experience': 1, 'certification': 1, 'photos': 1
         })
     return render_template('profile.template.html', database=database)
 
@@ -268,7 +275,7 @@ def delete_process(userid, diveid, sightid, delete_status):
         database = client.project3.user.find_one({
             "_id": ObjectId(userid)
         }, {
-            'name': 1, 'experience': 1, 'certification':1, 'photos':1
+            'name': 1, 'experience': 1, 'certification': 1, 'photos': 1
         })
         return render_template('profile.template.html', database=database)
     # delete dive log - to delete all related sightings too
@@ -284,7 +291,7 @@ def delete_process(userid, diveid, sightid, delete_status):
         database = client.project3.user.find_one({
             "_id": ObjectId(userid)
         }, {
-            'name': 1, 'experience': 1, 'certification':1, 'photos':1
+            'name': 1, 'experience': 1, 'certification': 1, 'photos': 1
         })
         return render_template('profile.template.html', database=database)
     # delete user - to delete all realted dives and sightings too
@@ -353,8 +360,9 @@ def search_all_process():
         return render_template('search_all.template.html', status=status)
 
 
+
 # "magic code" -- boilerplate
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'),
             port=int(os.environ.get('PORT')),
-            debug=True)
+            debug=False)
