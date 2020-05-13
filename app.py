@@ -14,17 +14,12 @@ client = pymongo.MongoClient(MONGO_URI)
 uploadcare_public_key = os.environ.get('UPLOADCARE_PUBLIC_KEY')
 
 
-
-
-
 app = Flask(__name__)
-
 
 # error handling 404
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
-
 
 # search by email
 @app.route('/')
@@ -38,7 +33,6 @@ def index():
 @app.route('/about')
 def about():
     return render_template('about.template.html')
-
 
 # after user enters email
 @app.route('/', methods=["POST"])
@@ -62,7 +56,6 @@ def profile(userid):
         })
 
     return render_template('profile.template.html', database=database)
-
 
 # new user to create account
 @app.route('/create',  methods=['POST'])
@@ -95,7 +88,6 @@ def createuser():
     database, useremail = af.get_database_from_form()
 
     return render_template('profile.template.html', database=database, uploadcare_public_key=uploadcare_public_key)
-
 
 # see all dives
 @app.route('/dive/<userid>')
@@ -132,7 +124,6 @@ def createdive_process(userid):
             'name': 1, 'experience': 1, 'certification': 1, 'photos': 1
         })
     return render_template('profile.template.html', database=database)
-
 
 # Edit dive
 @app.route('/editdive/<diveid>/<userid>')
@@ -211,7 +202,6 @@ def search_sights(userid):
 
     return render_template('allsights.template.html', results=listings, max_pages=max_pages, current_page=current_page)
 
-
 # see sights per dive
 @app.route('/sights_per_dive/<diveid>')
 def search_sights_per_dive(diveid):
@@ -223,7 +213,6 @@ def search_sights_per_dive(diveid):
     listings = af.get_sights_diveid(diveid).skip((current_page-1)*entry_per_page).limit(entry_per_page)
 
     return render_template('per_sights.template.html', results=listings, max_pages=max_pages, current_page=current_page)
-
 
 # Edit Sightings
 @app.route('/editsight/<sightid>/<userid>')
@@ -255,7 +244,6 @@ def edit_sight_process(sightid, userid):
             'name': 1, 'experience': 1, 'certification': 1, 'photos': 1
         })
     return render_template('profile.template.html', database=database)
-
 
 # Delete
 @app.route('/delete/<userid>/<diveid>/<sightid>/<delete_status>')
@@ -358,7 +346,6 @@ def search_all_process():
     else:
         status = 'nothing'
         return render_template('search_all.template.html', status=status)
-
 
 
 # "magic code" -- boilerplate

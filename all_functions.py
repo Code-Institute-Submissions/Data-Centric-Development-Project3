@@ -7,13 +7,14 @@ from bson.objectid import ObjectId
 MONGO_URI = os.environ.get('MONGO_URI')
 client = pymongo.MongoClient(MONGO_URI)
 
+
 # find user by email
 def get_database_from_form():
     useremail = (request.form.get("useremail")).title()
     results = client.project3.user.find_one({
             "email": (useremail)
         }, {
-            'name': 1, 'experience': 1, 'certification':1, 'photos':1
+            'name': 1, 'experience': 1, 'certification': 1, 'photos': 1
         })
 
     return results, useremail
@@ -57,7 +58,7 @@ def dive_diveid(diveid):
     dives = client.project3.dive.find_one({
         "_id": ObjectId(diveid)
     }, {
-        'location': 1, 'divesite': 1, 'comments':1, 'userid':1, 'temperature':1, 'depth':1, 'date':1
+        'location': 1, 'divesite': 1, 'comments': 1, 'userid': 1, 'temperature': 1, 'depth': 1, 'date': 1
     })
 
     return dives

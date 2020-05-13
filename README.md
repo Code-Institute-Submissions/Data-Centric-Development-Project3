@@ -90,6 +90,8 @@ on the database.
 
 
 ## FUTURE FEATURES
+* User password verification
+
 * User to be able to search by User, and see all the User's activity
 
 * An interactive map that plots out all of the User's dives and sightings
