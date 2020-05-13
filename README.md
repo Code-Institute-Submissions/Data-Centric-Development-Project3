@@ -115,4 +115,56 @@ on the database.
 * Screen To Gif(<https://www.screentogif.com/>)
 * Google fonts (<https://fonts.google.com/>)
 
+# TESTING
+### Manual Testing
 
+|Test Description| Results|
+|------ | ------ |
+| Latest Sightings on Home Page to update when new sightings are posted | Pass |
+| Search to automatically run  | Pass |
+| Search by Country (eg. Thailand) on search bar | Pass |
+| Search by Dive Site (eg. Redang) on search bar | Pass |
+| Search by Sepcies (eg. White Tip) on search bar | Pass |
+| Search by invalid on search bar | Pass |
+| Prompts a User information form when new email address is entered in Profile | Pass |
+| Creates a new User Profile after submitting User Informaton | Pass |
+| Uploads a user display photo (smaller than 1MB file size) | Pass |
+| Delete User | Pass |
+| Add new dive log for user | Pass |
+| Add new sightings per dive log | Pass |
+| Edit dive log and sightings | Pass |
+| Display all dive logs and sightings | Pass |
+| Display all sightings related to a specific dive log | Pass |
+| Delete Dive Logs and Sightings | Pass |
+| Pagination | Pass |
+| Mobile Responsive mode | Pass |
+no dekcilc si sgnithgis tsetal hcae nehw
+
+### KNOWN BUGS
+ * Unable to create a single "Back to Profile" button on both "All Dive Logs" and "Sightings" page. Error : InvalidOperation: cannot set options after executing query
+ * Workaround
+    - Created button in each iteration of the Table "For" loop
+
+
+# DEPLOYMENT
+This site is hosted using Heroku, deployed directly from the master branch. This site can be viewed [here](https://bh-logit.herokuapp.com/). 
+The deployed site will update automatically upon new commits from the master branch.
+
+To run locally, clone this repository directly into the editor of your choice by pasting git clone 
+`heroku git:clone -a bh-logit` into your terminal.
+
+
+# CREDITS
+* Images
+    - Default User Profile image (https://www.pond5.com)
+    - Default Sightings image (https://www.pexels.com/photo/person-diving-on-ocean-3257802/)
+
+* Logos
+    - https://www.freelogodesign.org/
+
+
+# Acknowledgements
+* Forms Templates reference from - https://www.codeply.com/p/xjn4SoQjD6
+
+
+**This is for educational use** 
