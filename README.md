@@ -138,7 +138,7 @@ on the database.
 | Delete Dive Logs and Sightings | Pass |
 | Pagination | Pass |
 | Mobile Responsive mode | Pass |
-no dekcilc si sgnithgis tsetal hcae nehw
+
 
 ### KNOWN BUGS
  * Unable to create a single "Back to Profile" button on both "All Dive Logs" and "Sightings" page. Error : InvalidOperation: cannot set options after executing query
